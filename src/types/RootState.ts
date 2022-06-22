@@ -1,3 +1,4 @@
+import { AppState } from 'app/slices/app/types';
 import { HomepageState } from 'app/pages/HomePage/slice/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -6,6 +7,7 @@ import { HomepageState } from 'app/pages/HomePage/slice/types';
   You have to declare them here manually
 */
 export interface RootState {
+  app?: AppState;
   homepage?: HomepageState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }
