@@ -28,11 +28,9 @@ export function App() {
     Hub.listen('auth', async ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          console.log('sign in', event, data);
           dispatch(appActions.updateAuthState(AuthState.SignedIn));
           break;
         case 'signOut':
-          console.log('sign out', event, data);
           dispatch(appActions.updateAuthState(AuthState.SignedOut));
           break;
 
@@ -48,17 +46,26 @@ export function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (authState === AuthState.SigningIn) {
-      Auth.federatedSignIn();
-    }
-    if (authState === AuthState.SigningOut) {
-      dispatch(appActions.updateAuthState(AuthState.SigningOut));
+    if (authState === AuthState.SignedOut) {
       Auth.signOut();
     }
   }, [authState]);
 
+  const signInClicked = () => {
+    dispatch(appActions.updateAuthState(AuthState.SigningIn));
+    Auth.federatedSignIn();
+  };
+
+  if (authState === AuthState.Loading) {
+    return (
+      <CircularProgress
+        size="4rem"
+        style={{ position: 'fixed', top: '50%', left: '50%' }}
+      />
+    );
+  }
   if (authState !== AuthState.SignedIn) {
-    return <SignIn />;
+    return <SignIn signInClicked={signInClicked} />;
   }
   return (
     <BrowserRouter>

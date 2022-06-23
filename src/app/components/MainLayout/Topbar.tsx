@@ -43,17 +43,16 @@ export const Topbar = (props: Props) => {
           </Typography>
           <img alt="ISA" src="/images/logos/logo_white.svg" />
         </Box>
-        <Tooltip title="Logout" leaveDelay={250} arrow={true}>
-          <IconButton
-            sx={{ marginLeft: theme => theme.spacing(1) }}
-            color="inherit"
-            onClick={() =>
-              dispatch(appActions.updateAuthState(AuthState.SigningOut))
-            }
-          >
-            <InputIcon />
-          </IconButton>
-        </Tooltip>
+        <IconButton
+          sx={{ borderRadius: 0 }}
+          color="inherit"
+          onClick={() =>
+            dispatch(appActions.updateAuthState(AuthState.SigningOut))
+          }
+        >
+          <InputIcon />
+          <Typography sx={{ marginLeft: 1 }}>Logout</Typography>
+        </IconButton>
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onSidebarOpen}>
             <MenuIcon />
