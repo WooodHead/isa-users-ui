@@ -1,6 +1,6 @@
 export interface AppState {
   authState?: AuthState;
-  snackbarNotification?: SnackbarNotification;
+  snackbarNotification: SnackbarNotification;
   currentUser?: any;
 }
 export type SnackbarNotification = {
@@ -14,5 +14,4 @@ export const enum AuthState {
   SignedOut = 'signedOut',
   SigningIn = 'signingIn',
   SignedIn = 'signedIn',
-  SigningOut = 'signingOut',
 }

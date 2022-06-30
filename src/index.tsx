@@ -22,7 +22,7 @@ import { App } from 'app';
 
 import { HelmetProvider } from 'react-helmet-async';
 
-import { configureAppStore } from 'store/configureStore';
+import { configureAppStore } from 'store';
 
 import reportWebVitals from 'reportWebVitals';
 

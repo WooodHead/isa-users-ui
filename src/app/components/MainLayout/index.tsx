@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Topbar } from './Topbar';
 import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 import { useHistory } from 'react-router-dom';
-import { Box } from '@mui/system';
+import { Box, useTheme } from '@mui/system';
+import { useMediaQuery } from 'utils/hooks/useMediaQuery';
 
 export const MainLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -13,9 +13,7 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
   const history = useHistory();
   const theme = useTheme();
 
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-    defaultMatches: true,
-  });
+  const { isDesktop } = useMediaQuery();
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -53,7 +51,6 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
         }}
       >
         {children}
-        <Footer />
       </Box>
     </Box>
   );

@@ -13,6 +13,7 @@ import {
   ListItem,
   useTheme,
 } from '@mui/material';
+import { Footer } from 'app/components/MainLayout/Footer';
 
 interface Props {
   onClose: () => void;
@@ -26,7 +27,7 @@ export const Sidebar = (props: Props) => {
 
   const pages = [
     {
-      title: 'My Profile',
+      title: 'Profile',
       href: '/profile',
       disabled: false,
       icon: <AccountCircleIcon />,
@@ -104,6 +105,9 @@ export const Sidebar = (props: Props) => {
             </ListItem>
           ))}
         </List>
+        <Box sx={{ mt: 'auto' }}>
+          <Footer />
+        </Box>
       </Box>
     </Drawer>
   );

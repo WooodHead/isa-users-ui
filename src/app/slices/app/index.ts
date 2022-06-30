@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { useInjectReducer } from 'utils/redux/injectors';
+import { useInjectReducer } from 'store/injectors';
 import { createSlice } from 'utils/redux/toolkit';
 import { AppState, AuthState, SnackbarNotification } from './types';
 

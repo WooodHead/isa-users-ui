@@ -1,6 +1,6 @@
 // import { colors } from '@mui/material';
 
-export const isaRed = '#E4002B';
+export const isaRed = '#E74027';
 export const isaBlue = '#00A099';
 
 export const palette = {

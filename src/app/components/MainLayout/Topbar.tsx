@@ -14,6 +14,7 @@ import InputIcon from '@mui/icons-material/Input';
 import { useAppSlice, appActions } from 'app/slices/app';
 import { AuthState } from 'app/slices/app/types';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'utils/hooks/useMediaQuery';
 
 interface Props {
   onSidebarOpen: () => void;
@@ -25,29 +26,35 @@ export const Topbar = (props: Props) => {
   const { onSidebarOpen } = props;
 
   const dispatch = useDispatch();
+  const { isDesktop } = useMediaQuery();
 
   return (
     <AppBar sx={{ flexGrow: 1 }}>
-      <Toolbar>
+      <Toolbar sx={{ height: '64px' }}>
         <Box
           sx={{
-            ml: 2,
+            padding: 0,
             display: 'flex',
             flexDirection: 'row',
             flexGrow: 1,
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5" sx={{ mr: 2 }}>
-            ISA Users
-          </Typography>
-          <img alt="ISA" src="/images/logos/logo_white.svg" />
+          <img
+            alt="ISA Logo"
+            src="/images/logo-contrast.svg"
+            height={isDesktop ? 48 : 30}
+          />
+          {/* <Typography variant="subtitle1" sx={{ m: 2 }}>
+            Members <br />
+            Portal
+          </Typography> */}
         </Box>
         <IconButton
           sx={{ borderRadius: 0 }}
           color="inherit"
           onClick={() =>
-            dispatch(appActions.updateAuthState(AuthState.SigningOut))
+            dispatch(appActions.updateAuthState(AuthState.SignedOut))
           }
         >
           <InputIcon />
