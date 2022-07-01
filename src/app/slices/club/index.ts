@@ -1,28 +1,28 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { userApi } from 'app/api/user-api';
+import { clubApi } from 'app/api/club-api';
 import { useInjectReducer } from 'store/injectors';
 import { createSlice } from 'utils/redux/toolkit';
-import { UserState } from './types';
+import { ClubState } from './types';
 
-export const initialState: UserState = {};
+export const initialState: ClubState = {};
 
 const slice = createSlice({
-  name: 'user',
+  name: 'club',
   initialState,
   reducers: {},
   extraReducers: builder => {
     builder.addMatcher(
-      userApi.endpoints.getUserDetails.matchFulfilled,
+      clubApi.endpoints.getClubDetails.matchFulfilled,
       (state, { payload }) => {
-        state.userInfo = payload;
+        state.clubInfo = payload;
       },
     );
   },
 });
 
-export const { actions: userActions } = slice;
+export const { actions: clubActions } = slice;
 
-export const useUserSlice = () => {
+export const useClubSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
   return { actions: slice.actions };
 };

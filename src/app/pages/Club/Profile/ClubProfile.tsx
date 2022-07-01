@@ -17,22 +17,23 @@ import { InputText } from 'app/components/InputField/InputText';
 import { InputSelect } from 'app/components/InputField/InputSelect';
 import CountrySelect from 'app/components/InputField/CountrySelect';
 import { InputDate } from 'app/components/InputField/InputDate';
-import { useProfileForm } from 'app/pages/Profile/useProfileForm';
 import { selectUserInfo } from 'app/slices/user/selectors';
 import { showErrorNotification } from 'utils';
-import { userApi } from 'app/slices/user/api';
 import { CircularProgress } from '@mui/material';
+import { selectClubInfo } from 'app/slices/club/selectors';
+import { clubApi } from 'app/api/club-api';
+import { useProfileForm } from 'app/pages/Club/Profile/useProfileForm';
 
-export function MyProfile() {
+export function ClubProfile() {
   const dispatch = useDispatch();
 
   const [errorMarkedField, setErrorMarkedField] =
     useState<{ field: string; message: string }>();
 
-  const userInfo = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectClubInfo);
   const form = useProfileForm();
-  const [updateUser, { isLoading: isSaving }] =
-    userApi.useUpdateUserDetailsMutation();
+  const [updateClub, { isLoading: isSaving }] =
+    clubApi.useUpdateClubDetailsMutation();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -45,13 +46,13 @@ export function MyProfile() {
       dispatch(showErrorNotification(message));
     } else {
       setErrorMarkedField(undefined);
-      updateUser(result.data!);
+      updateClub(result.data!);
     }
   };
 
   return (
     <Card>
-      <CardHeader title="My Profile" />
+      <CardHeader title="Club Profile" />
       {/* <Divider /> */}
       <CardContent>
         <Grid
@@ -75,54 +76,15 @@ export function MyProfile() {
               }}
             />
           </Grid>
+
           <Grid item xs={6} lg={6}>
             <InputText
-              label="Surname"
-              required
-              error={errorMarkedField?.field === 'surname'}
+              label="Contact Phone"
+              error={errorMarkedField?.field === 'contactPhone'}
               helperText={errorMarkedField?.message}
-              defaultValue={userInfo!.surname}
+              defaultValue={userInfo!.contactPhone}
               onChange={v => {
-                form.setSurname(v);
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} lg={6}>
-            <InputSelect
-              label="Gender"
-              required
-              options={[
-                { label: 'Male', value: 'm' },
-                { label: 'Female', value: 'f' },
-                { label: 'Non-Binary/Other', value: 'o' },
-              ]}
-              error={errorMarkedField?.field === 'gender'}
-              helperText={errorMarkedField?.message}
-              defaultValue={userInfo!.gender}
-              onChange={v => {
-                form.setGender(v as any);
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} lg={6}>
-            <InputDate
-              label="Birth Date"
-              error={errorMarkedField?.field === 'birthDate'}
-              helperText={errorMarkedField?.message}
-              defaultValue={userInfo!.birthDate}
-              onChange={v => {
-                form.setBirthDate(v);
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} lg={6}>
-            <InputText
-              label="Phone Number"
-              error={errorMarkedField?.field === 'phoneNumber'}
-              helperText={errorMarkedField?.message}
-              defaultValue={userInfo!.phoneNumber}
-              onChange={v => {
-                form.setPhoneNumber(v);
+                form.setContactPhone(v);
               }}
             />
           </Grid>
@@ -142,17 +104,6 @@ export function MyProfile() {
               defaultValue={userInfo!.country}
               onChange={v => {
                 form.setCountry(v);
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} lg={6}>
-            <InputText
-              label="Emergency Contact Number"
-              error={errorMarkedField?.field === 'emergencyContact'}
-              helperText={errorMarkedField?.message}
-              defaultValue={userInfo!.emergencyContact}
-              onChange={v => {
-                form.setEmergencyContact(v);
               }}
             />
           </Grid>

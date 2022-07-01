@@ -19,12 +19,12 @@ import {
   Typography,
 } from '@mui/material';
 
-import { userApi } from 'app/slices/user/api';
 import { CircularProgress } from '@mui/material';
 import { ButtonWithConfirmation } from 'app/components/ButtonWithConfirmation';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
+import { userApi } from 'app/api/user-api';
 
 export function MyClubs() {
   const dispatch = useDispatch();

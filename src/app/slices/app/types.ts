@@ -1,7 +1,7 @@
 export interface AppState {
   authState?: AuthState;
   snackbarNotification: SnackbarNotification;
-  currentUser?: any;
+  userIdentityType?: 'individual' | 'club';
 }
 export type SnackbarNotification = {
   message: string;

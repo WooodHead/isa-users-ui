@@ -5,6 +5,8 @@ import { Auth, Hub, Amplify } from 'aws-amplify';
 import { CircularProgress } from '@mui/material';
 
 import configJson from 'config.json';
+import configLocalJson from 'config_local.json';
+
 import { useTranslation } from 'react-i18next';
 import { MainLayout } from 'app/components/MainLayout';
 import { useEffect } from 'react';
@@ -13,32 +15,57 @@ import { appActions, useAppSlice } from 'app/slices/app';
 import {
   selectAuthState,
   selectSnackbarNotification,
+  selectUserIdentityType,
 } from 'app/slices/app/selectors';
 import { AuthState } from 'app/slices/app/types';
 import { SignIn } from 'app/components/SignIn';
 import { useUserSlice } from 'app/slices/user';
-import { userApi } from 'app/slices/user/api';
 import NotificationSnackbar from 'app/components/NotificationSnackbar';
+import GlobalStyles from '@mui/material/GlobalStyles';
 
-import { ProfilePage } from './pages/Profile/Loadable';
-import { ClubsPage } from './pages/Clubs/Loadable';
+import { UserProfilePage } from './pages/User/Profile/Loadable';
+import { UserClubsPage } from './pages/User/UserClubs/Loadable';
+import { ClubProfilePage } from 'app/pages/Club/Profile/Loadable';
+import { ClubMembersPage } from 'app/pages/Club/Members/Loadable';
+
+import { userApi } from 'app/api/user-api';
+import { showErrorNotification } from 'utils';
+import { clubApi } from 'app/api/club-api';
+import { useClubSlice } from 'app/slices/club';
 
 export function App() {
   useAppSlice();
   useUserSlice();
+  useClubSlice();
 
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
   const authState = useSelector(selectAuthState);
+  const identityType = useSelector(selectUserIdentityType);
+  const isIndividual = identityType === 'individual';
+  const isClub = identityType === 'club';
+
+  console.log(identityType);
   const snackbarNotification = useSelector(selectSnackbarNotification);
 
-  const { data, isLoading } = userApi.useGetUserDetailsQuery(undefined, {
-    skip: authState !== AuthState.SignedIn,
-  });
+  const { isLoading: isLoadingUser } = userApi.useGetUserDetailsQuery(
+    undefined,
+    { skip: !isIndividual },
+  );
+
+  const { isLoading: isLoadingClub } = clubApi.useGetClubDetailsQuery(
+    undefined,
+    { skip: !isClub },
+  );
 
   useEffect(() => {
-    Amplify.configure(configJson.AWS.Amplify);
+    const amplifyConfig =
+      process.env.NODE_ENV === 'development'
+        ? configLocalJson.AWS.Amplify
+        : configJson.AWS.Amplify;
+
+    Amplify.configure(amplifyConfig);
     Hub.listen('auth', async ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
@@ -53,14 +80,31 @@ export function App() {
       }
     });
     Auth.currentAuthenticatedUser()
-      .then(async () => {
+      .then(async data => {
         dispatch(appActions.updateAuthState(AuthState.SignedIn));
       })
       .catch(() => dispatch(appActions.updateAuthState(AuthState.SignedOut)));
   }, [dispatch]);
 
   useEffect(() => {
-    if (authState === AuthState.SignedOut) {
+    if (authState === AuthState.SignedIn) {
+      Auth.currentUserInfo()
+        .then(data => {
+          const identityType = data.attributes['custom:identityType'];
+          if (!identityType) {
+            dispatch(
+              showErrorNotification(
+                'Something went wrong with your account. Please contact to ISA ',
+              ),
+            );
+          } else {
+            dispatch(appActions.updateIdentityType(identityType));
+          }
+        })
+        .catch(err =>
+          dispatch(appActions.updateAuthState(AuthState.SignedOut)),
+        );
+    } else if (authState === AuthState.SignedOut) {
       Auth.signOut();
     }
   }, [authState]);
@@ -74,7 +118,12 @@ export function App() {
     dispatch(appActions.updateSnackbarNotification(null));
   };
 
-  if (authState === AuthState.Loading || isLoading) {
+  if (
+    authState === AuthState.Loading ||
+    isLoadingClub ||
+    isLoadingUser ||
+    !identityType
+  ) {
     return (
       <CircularProgress
         size="4rem"
@@ -90,12 +139,25 @@ export function App() {
       <Helmet htmlAttributes={{ lang: i18n.language }}>
         <meta name="description" content="ISA Users" />
       </Helmet>
+      <GlobalStyles styles={{ body: { fontFamily: 'Inter' } }} />
       <MainLayout>
         <Switch>
-          <Route path="/clubs" component={ClubsPage} />
-          <Route path="/profile" component={ProfilePage} />
+          {isIndividual && (
+            <Route path="/user/profile" component={UserProfilePage} />
+          )}
+          {isIndividual && (
+            <Route path="/user/clubs" component={UserClubsPage} />
+          )}
+
+          {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
+
+          {isClub && <Route path="/club/members" component={ClubMembersPage} />}
           <Route path="*">
-            <Redirect to="/profile" />
+            {isIndividual ? (
+              <Redirect to="/user/profile" />
+            ) : (
+              <Redirect to="/club/profile" />
+            )}
           </Route>
         </Switch>
       </MainLayout>

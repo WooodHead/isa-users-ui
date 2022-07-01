@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -22,6 +23,7 @@ interface Props {
   size?: 'small' | 'medium' | 'large';
   children?: React.ReactNode;
   variant?: 'contained' | 'outlined';
+  color?: string;
 }
 
 export const ButtonWithConfirmation = (props: Props) => {
@@ -45,6 +47,9 @@ export const ButtonWithConfirmation = (props: Props) => {
           startIcon={props.icon}
           onClick={() => setOpenConfirmation(true)}
           disabled={Boolean(props.disabled)}
+          sx={{
+            color: props.color,
+          }}
         >
           {props.buttonText}
         </Button>
@@ -53,6 +58,9 @@ export const ButtonWithConfirmation = (props: Props) => {
           color="primary"
           onClick={() => setOpenConfirmation(true)}
           disabled={Boolean(props.disabled)}
+          sx={{
+            color: props.color,
+          }}
         >
           {props.icon}
         </IconButton>

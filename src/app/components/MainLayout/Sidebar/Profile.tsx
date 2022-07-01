@@ -1,13 +1,13 @@
 import { Avatar, Box, Typography } from '@mui/material';
-import { selectUserInfo } from 'app/slices/user/selectors';
+import { selectCurrentUserInfo } from 'app/slices/app/selectors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Profile = () => {
-  const dispatch = useDispatch();
+  const userInfo = useSelector(selectCurrentUserInfo);
 
-  const userInfo = useSelector(selectUserInfo);
-
+  const name: string = userInfo?.name ?? '';
+  const surname: string = (userInfo || {})['surname'] || '';
   return (
     <Box
       sx={{
@@ -26,13 +26,11 @@ export const Profile = () => {
           // backgroundColor: theme => theme.palette.primary.light,
         }}
         alt="Person"
-        src={''}
+        src={userInfo?.profilePictureUrl || ''}
       >
-        {userInfo?.name.substring(0, 1)} {userInfo?.surname.substring(0, 1)}
+        {name.substring(0, 1)} {surname?.substring(0, 1)}
       </Avatar>
-      <Typography variant="h5">
-        {userInfo?.name + ' ' + userInfo?.surname}
-      </Typography>
+      <Typography variant="h5">{name + ' ' + surname}</Typography>
     </Box>
   );
 };

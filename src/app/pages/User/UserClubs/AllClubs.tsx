@@ -22,9 +22,9 @@ import {
 
 import { CircularProgress } from '@mui/material';
 import { ButtonWithConfirmation } from 'app/components/ButtonWithConfirmation';
-import { clubsApi } from 'app/pages/Clubs/slice/api';
-import { userApi } from 'app/slices/user/api';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
+import { clubApi } from 'app/api/club-api';
+import { userApi } from 'app/api/user-api';
 
 export function AllClubs() {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export function AllClubs() {
 
   // const userInfo = useSelector(selectUserInfo);
   const { data: allClubs, isLoading: isClubsLoading } =
-    clubsApi.useGetAllClubsQuery(undefined, {});
+    clubApi.useGetAllClubsQuery(undefined, {});
 
   const { data: myClubs } = userApi.useGetClubsOfUserQuery();
 
