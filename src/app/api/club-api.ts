@@ -54,7 +54,7 @@ export const clubApi = baseApi
         invalidatesTags: ['clubUsers'],
         async onQueryStarted(_, { dispatch, queryFulfilled }) {
           await queryFulfilled;
-          dispatch(showSuccessNotification('Approved Member!'));
+          dispatch(showSuccessNotification('Approved member'));
         },
       }),
       removeUser: builder.mutation<void, string>({
@@ -65,7 +65,7 @@ export const clubApi = baseApi
         invalidatesTags: ['clubUsers'],
         async onQueryStarted(_, { dispatch, queryFulfilled }) {
           await queryFulfilled;
-          dispatch(showSuccessNotification('Removed Member!'));
+          dispatch(showSuccessNotification('Removed member'));
         },
       }),
     }),

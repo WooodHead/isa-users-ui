@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appActions, useAppSlice } from 'app/slices/app';
 import {
   selectAuthState,
+  selectCurrentUserInfo,
   selectSnackbarNotification,
   selectUserIdentityType,
 } from 'app/slices/app/selectors';
@@ -43,11 +44,11 @@ export function App() {
 
   const authState = useSelector(selectAuthState);
   const identityType = useSelector(selectUserIdentityType);
+  const currentUserInfo = useSelector(selectCurrentUserInfo);
+  const snackbarNotification = useSelector(selectSnackbarNotification);
+
   const isIndividual = identityType === 'individual';
   const isClub = identityType === 'club';
-
-  console.log(identityType);
-  const snackbarNotification = useSelector(selectSnackbarNotification);
 
   const { isLoading: isLoadingUser } = userApi.useGetUserDetailsQuery(
     undefined,
@@ -118,12 +119,49 @@ export function App() {
     dispatch(appActions.updateSnackbarNotification(null));
   };
 
-  if (
-    authState === AuthState.Loading ||
-    isLoadingClub ||
-    isLoadingUser ||
-    !identityType
-  ) {
+  if (authState === AuthState.SignedOut) {
+    return <SignIn signInClicked={signInClicked} />;
+  }
+
+  if (authState === AuthState.SignedIn && currentUserInfo?.email) {
+    return (
+      <BrowserRouter>
+        <Helmet htmlAttributes={{ lang: i18n.language }}>
+          <meta name="description" content="ISA Users" />
+        </Helmet>
+        <GlobalStyles styles={{ body: { fontFamily: 'Inter' } }} />
+        <MainLayout>
+          <Switch>
+            {isIndividual && (
+              <Route path="/user/profile" component={UserProfilePage} />
+            )}
+            {isIndividual && (
+              <Route path="/user/clubs" component={UserClubsPage} />
+            )}
+
+            {isClub && (
+              <Route path="/club/profile" component={ClubProfilePage} />
+            )}
+
+            {isClub && (
+              <Route path="/club/members" component={ClubMembersPage} />
+            )}
+            <Route path="*">
+              {isIndividual ? (
+                <Redirect to="/user/profile" />
+              ) : (
+                <Redirect to="/club/profile" />
+              )}
+            </Route>
+          </Switch>
+        </MainLayout>
+        <NotificationSnackbar
+          snackbarNotification={snackbarNotification}
+          onClose={onSnackbarClose}
+        />
+      </BrowserRouter>
+    );
+  } else {
     return (
       <CircularProgress
         size="4rem"
@@ -131,40 +169,4 @@ export function App() {
       />
     );
   }
-  if (authState !== AuthState.SignedIn) {
-    return <SignIn signInClicked={signInClicked} />;
-  }
-  return (
-    <BrowserRouter>
-      <Helmet htmlAttributes={{ lang: i18n.language }}>
-        <meta name="description" content="ISA Users" />
-      </Helmet>
-      <GlobalStyles styles={{ body: { fontFamily: 'Inter' } }} />
-      <MainLayout>
-        <Switch>
-          {isIndividual && (
-            <Route path="/user/profile" component={UserProfilePage} />
-          )}
-          {isIndividual && (
-            <Route path="/user/clubs" component={UserClubsPage} />
-          )}
-
-          {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
-
-          {isClub && <Route path="/club/members" component={ClubMembersPage} />}
-          <Route path="*">
-            {isIndividual ? (
-              <Redirect to="/user/profile" />
-            ) : (
-              <Redirect to="/club/profile" />
-            )}
-          </Route>
-        </Switch>
-      </MainLayout>
-      <NotificationSnackbar
-        snackbarNotification={snackbarNotification}
-        onClose={onSnackbarClose}
-      />
-    </BrowserRouter>
-  );
 }

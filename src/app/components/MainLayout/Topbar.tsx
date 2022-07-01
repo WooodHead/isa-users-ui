@@ -43,7 +43,7 @@ export const Topbar = (props: Props) => {
           <img
             alt="ISA Logo"
             src="/images/logo-contrast.svg"
-            height={isDesktop ? 48 : 30}
+            height={isDesktop ? 40 : 30}
           />
           {/* <Typography variant="subtitle1" sx={{ m: 2 }}>
             Members <br />

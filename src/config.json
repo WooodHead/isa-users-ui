@@ -9,7 +9,7 @@
         "mandatorySignIn": true,
         "oauth": {
           "domain": "isa-users.auth.eu-central-1.amazoncognito.com",
-          "scope": ["email", "openid"],
+          "scope": ["email", "openid", "aws.cognito.signin.user.admin"],
           "redirectSignIn": "https://d2rs9dwrt1t2p3.cloudfront.net",
           "redirectSignOut": "https://d2rs9dwrt1t2p3.cloudfront.net",
           "responseType": "code"
