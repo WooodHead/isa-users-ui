@@ -112,27 +112,23 @@ export function App() {
 
   const MainApp = () => {
     return (
-      <BrowserRouter>
-        <Switch>
-          {isIndividual && (
-            <Route path="/user/profile" component={UserProfilePage} />
-          )}
-          {isIndividual && (
-            <Route path="/user/clubs" component={UserClubsPage} />
-          )}
+      <Switch>
+        {isIndividual && (
+          <Route path="/user/profile" component={UserProfilePage} />
+        )}
+        {isIndividual && <Route path="/user/clubs" component={UserClubsPage} />}
 
-          {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
+        {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
 
-          {isClub && <Route path="/club/members" component={ClubMembersPage} />}
-          <Route path="*">
-            {isIndividual ? (
-              <Redirect to="/user/profile" />
-            ) : (
-              <Redirect to="/club/profile" />
-            )}
-          </Route>
-        </Switch>
-      </BrowserRouter>
+        {isClub && <Route path="/club/members" component={ClubMembersPage} />}
+        <Route path="*">
+          {isIndividual ? (
+            <Redirect to="/user/profile" />
+          ) : (
+            <Redirect to="/club/profile" />
+          )}
+        </Route>
+      </Switch>
     );
   };
 
