@@ -1,7 +1,7 @@
 export interface AppState {
   authState?: AuthState;
   snackbarNotification: SnackbarNotification;
-  userIdentityType?: 'individual' | 'club';
+  userIdentityType?: IdentityType;
 }
 export type SnackbarNotification = {
   message: string;
@@ -11,6 +11,7 @@ export type SnackbarNotification = {
 
 export const enum AuthState {
   Loading = 'loading',
+  SigningOut = 'signingOut',
   SignedOut = 'signedOut',
   SigningIn = 'signingIn',
   SignedIn = 'signedIn',

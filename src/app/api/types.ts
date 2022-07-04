@@ -1,4 +1,5 @@
 export interface GetUserAPIResponse {
+  cognitoSub: string;
   email: string;
   name: string;
   surname: string;
@@ -12,6 +13,7 @@ export interface GetUserAPIResponse {
 }
 
 export interface GetClubAPIResponse {
+  cognitoSub: string;
   email: string;
   name: string;
   profilePictureUrl?: string;
@@ -41,7 +43,7 @@ export interface GetAllClubsAPIResponse {
     id: string;
     name: string;
     email: string;
-    profilePictureUrl: string;
+    profilePictureUrl?: string;
   }[];
 }
 

@@ -16,7 +16,7 @@ import {
 import { Footer } from 'app/components/MainLayout/Footer';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from 'app/slices/user/selectors';
-import { selectUserIdentityType } from 'app/slices/app/selectors';
+import { selectCurrentUserInfo } from 'app/slices/app/selectors';
 
 interface Props {
   onClose: () => void;
@@ -26,7 +26,8 @@ interface Props {
 
 export const Sidebar = (props: Props) => {
   const { open, variant, onClose } = props;
-  const identityType = useSelector(selectUserIdentityType);
+  const currentUserInfo = useSelector(selectCurrentUserInfo);
+  const identityType = currentUserInfo?.identityType;
 
   const theme = useTheme();
 

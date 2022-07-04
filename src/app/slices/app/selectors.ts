@@ -16,19 +16,16 @@ export const selectSnackbarNotification = createSelector(
   state => state.snackbarNotification,
 );
 
-export const selectUserIdentityType = createSelector(
-  [selectSlice],
-  state => state.userIdentityType,
-);
 
 export const selectCurrentUserInfo = createSelector(
   [selectSlice, selectUserSlice, selectClubSlice],
   (appState, userState, clubState) => {
+    const info = { identityType: appState.userIdentityType };
     if (appState.userIdentityType === 'individual') {
-      return userState?.userInfo;
+      return { ...info, ...userState?.userInfo };
     }
     if (appState.userIdentityType === 'club') {
-      return clubState?.clubInfo;
+      return { ...info, ...clubState?.clubInfo };
     }
   },
 );

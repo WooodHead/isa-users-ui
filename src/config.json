@@ -4,6 +4,7 @@
       "Auth": {
         "userPoolId": "eu-central-1_iGaYGKeyJ",
         "userPoolWebClientId": "59gg1oof4ik4nk46entj56lnnq",
+        "identityPoolId": "eu-central-1:e77377fc-74a7-49f3-bba9-0c137f8ed9ef",
         "identityPoolRegion": "eu-central-1",
         "region": "eu-central-1",
         "mandatorySignIn": true,
@@ -14,6 +15,10 @@
           "redirectSignOut": "https://d2rs9dwrt1t2p3.cloudfront.net",
           "responseType": "code"
         }
+      },
+      "Storage": {
+        "bucket": "isa-users-images",
+        "region": "eu-central-1"
       }
     }
   }

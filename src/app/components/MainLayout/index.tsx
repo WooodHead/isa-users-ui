@@ -6,12 +6,14 @@ import { Footer } from './Footer';
 import { useHistory } from 'react-router-dom';
 import { Box, useTheme } from '@mui/system';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
+import { AuthState } from 'app/slices/app/types';
+import { selectAuthState, selectCurrentUserInfo } from 'app/slices/app/selectors';
 
 export const MainLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
   const theme = useTheme();
+  const currentUserInfo = useSelector(selectCurrentUserInfo);
 
   const { isDesktop } = useMediaQuery();
 
@@ -30,28 +32,38 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
   return (
     <Box
       sx={{
-        paddingTop: '56px',
+        paddingTop: '64px',
         height: '100%',
-        [theme.breakpoints.up('sm')]: {
-          paddingTop: '64px',
-        },
       }}
     >
       <Topbar onSidebarOpen={handleSidebarOpen} />
-      <Sidebar
-        onClose={handleSidebarClose}
-        open={shouldOpenSidebar}
-        variant={isDesktop ? 'persistent' : 'temporary'}
-      />
-      <Box
-        component={'main'}
-        sx={{
-          height: '100%',
-          ml: isDesktop ? '240px' : '0',
-        }}
-      >
-        {children}
-      </Box>
+      {currentUserInfo?.email ? (
+        <>
+          <Sidebar
+            onClose={handleSidebarClose}
+            open={shouldOpenSidebar}
+            variant={isDesktop ? 'persistent' : 'temporary'}
+          />
+          <Box
+            component={'main'}
+            sx={{
+              height: '100%',
+              ml: isDesktop ? '240px' : '0',
+            }}
+          >
+            {children}
+          </Box>
+        </>
+      ) : (
+        <Box
+          component={'main'}
+          sx={{
+            height: 'calc(100vh - 64px)',
+          }}
+        >
+          {children}
+        </Box>
+      )}
     </Box>
   );
 };

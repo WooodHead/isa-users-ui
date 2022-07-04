@@ -5,9 +5,9 @@ export const isaBlue = '#00A099';
 
 export const palette = {
   primary: {
-    main: isaRed,
+    main: isaBlue,
   },
   secondary: {
-    main: isaBlue,
+    main: isaRed,
   },
 };

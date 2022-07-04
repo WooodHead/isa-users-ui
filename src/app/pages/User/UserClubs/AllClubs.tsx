@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import {
+  Avatar,
   Button,
   Card,
   CardContent,
@@ -68,7 +69,18 @@ export function AllClubs() {
             <TableBody>
               {allClubs?.map((club, keyIndex) => (
                 <TableRow key={club.id}>
-                  <TableCell>{club.name}</TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Avatar
+                        alt="Club Picture"
+                        src={club?.profilePictureUrl || ''}
+                        sx={{ mr: 1 }}
+                      >
+                        {club.name.substring(0, 1)}
+                      </Avatar>
+                      {club.name}
+                    </Box>
+                  </TableCell>
                   <TableCell>
                     <ButtonWithConfirmation
                       buttonText="Request to join"

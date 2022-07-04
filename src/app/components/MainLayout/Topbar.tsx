@@ -13,8 +13,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import InputIcon from '@mui/icons-material/Input';
 import { useAppSlice, appActions } from 'app/slices/app';
 import { AuthState } from 'app/slices/app/types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
+import { selectAuthState } from 'app/slices/app/selectors';
 
 interface Props {
   onSidebarOpen: () => void;
@@ -27,6 +28,7 @@ export const Topbar = (props: Props) => {
 
   const dispatch = useDispatch();
   const { isDesktop } = useMediaQuery();
+  const authState = useSelector(selectAuthState);
 
   return (
     <AppBar sx={{ flexGrow: 1 }}>
@@ -40,31 +42,37 @@ export const Topbar = (props: Props) => {
             alignItems: 'center',
           }}
         >
-          <img
-            alt="ISA Logo"
-            src="/images/logo-contrast.svg"
-            height={isDesktop ? 40 : 30}
-          />
+          <Link href="https://www.slacklineinternational.org" target="_blank">
+            <img
+              alt="ISA Logo"
+              src="/images/logo-contrast.svg"
+              height={isDesktop ? 40 : 30}
+            />
+          </Link>
+
           {/* <Typography variant="subtitle1" sx={{ m: 2 }}>
-            Members <br />
-            Portal
+             Users
           </Typography> */}
         </Box>
-        <IconButton
-          sx={{ borderRadius: 0 }}
-          color="inherit"
-          onClick={() =>
-            dispatch(appActions.updateAuthState(AuthState.SignedOut))
-          }
-        >
-          <InputIcon />
-          <Typography sx={{ marginLeft: 1 }}>Logout</Typography>
-        </IconButton>
-        <Hidden lgUp>
-          <IconButton color="inherit" onClick={onSidebarOpen}>
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+        {authState === AuthState.SignedIn && (
+          <>
+            <IconButton
+              sx={{ borderRadius: 0 }}
+              color="inherit"
+              onClick={() =>
+                dispatch(appActions.updateAuthState(AuthState.SigningOut))
+              }
+            >
+              <InputIcon />
+              <Typography sx={{ marginLeft: 1 }}>Logout</Typography>
+            </IconButton>
+            <Hidden lgUp>
+              <IconButton color="inherit" onClick={onSidebarOpen}>
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );
