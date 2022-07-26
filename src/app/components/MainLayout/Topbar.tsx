@@ -27,11 +27,10 @@ export const Topbar = (props: Props) => {
   const { onSidebarOpen } = props;
 
   const dispatch = useDispatch();
-  const { isDesktop } = useMediaQuery();
   const authState = useSelector(selectAuthState);
 
   return (
-    <AppBar sx={{ flexGrow: 1 }}>
+    <AppBar sx={{ flexGrow: 1, display: { lg: 'none' } }}>
       <Toolbar sx={{ height: '64px' }}>
         <Box
           sx={{
@@ -43,11 +42,7 @@ export const Topbar = (props: Props) => {
           }}
         >
           <Link href="https://www.slacklineinternational.org" target="_blank">
-            <img
-              alt="ISA Logo"
-              src="/images/logo-contrast.svg"
-              height={isDesktop ? 40 : 30}
-            />
+            <img alt="ISA Logo" src="/images/logo-contrast.svg" height="32px" />
           </Link>
 
           {/* <Typography variant="subtitle1" sx={{ m: 2 }}>
@@ -55,23 +50,11 @@ export const Topbar = (props: Props) => {
           </Typography> */}
         </Box>
         {authState === AuthState.SignedIn && (
-          <>
-            <IconButton
-              sx={{ borderRadius: 0 }}
-              color="inherit"
-              onClick={() =>
-                dispatch(appActions.updateAuthState(AuthState.SigningOut))
-              }
-            >
-              <InputIcon />
-              <Typography sx={{ marginLeft: 1 }}>Logout</Typography>
+          <Hidden lgUp>
+            <IconButton color="inherit" onClick={onSidebarOpen}>
+              <MenuIcon />
             </IconButton>
-            <Hidden lgUp>
-              <IconButton color="inherit" onClick={onSidebarOpen}>
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
-          </>
+          </Hidden>
         )}
       </Toolbar>
     </AppBar>

@@ -11,6 +11,7 @@ import {
   Link,
   List,
   ListItem,
+  Stack,
   useTheme,
 } from '@mui/material';
 import { Footer } from 'app/components/MainLayout/Footer';
@@ -64,7 +65,9 @@ export const Sidebar = (props: Props) => {
     <Drawer
       sx={{
         width: '240px',
-        [theme.breakpoints.up('lg')]: {
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
+        [theme.breakpoints.down('lg')]: {
           height: 'calc(100% - 64px)',
         },
       }}
@@ -78,57 +81,70 @@ export const Sidebar = (props: Props) => {
           display: 'flex',
           flexDirection: 'column',
           width: 240,
-          height: '100%',
-          marginTop: '64px',
+          [theme.breakpoints.down('lg')]: {
+            marginTop: '64px',
+          },
           padding: theme.spacing(2),
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          flex: 1,
         }}
       >
-        <Profile />
-        <Divider />
-        <List>
-          {pages.map(
-            page =>
-              page.show && (
-                <ListItem
-                  disableGutters
-                  key={page.title}
-                  sx={{ display: 'flex', paddingTop: 0, paddingBottom: 0 }}
-                >
-                  <Button
-                    sx={{
-                      display: 'flex',
-                      flexGrow: 1,
-                      padding: '10px 8px',
-                      justifyContent: 'flex-start',
-                      textTransform: 'none',
-                      width: '100%',
-                      color: theme.palette.grey[800],
-                      fontWeight: theme.typography.fontWeightMedium,
-                      '&:active': {
-                        color: theme.palette.primary.main,
-                      },
-                    }}
-                    variant="text"
-                    component={NavLink}
-                    disabled={Boolean(page.disabled)}
-                    to={page.href}
+        <Stack spacing={2} alignItems={'strech'}>
+          <Link
+            sx={{ display: { xs: 'none', lg: 'inherit' } }}
+            href="https://www.slacklineinternational.org"
+            target="_blank"
+          >
+            <img alt="ISA Logo" src="/images/logo-contrast.svg" height="36px" />
+          </Link>
+          <Profile />
+          <Divider sx={{ borderColor: theme.palette.primary.contrastText }} />
+          <List>
+            {pages.map(
+              page =>
+                page.show && (
+                  <ListItem
+                    disableGutters
+                    key={page.title}
+                    sx={{ display: 'flex', paddingTop: 0, paddingBottom: 0 }}
                   >
-                    <Box
+                    <Button
                       sx={{
-                        height: 32,
                         display: 'flex',
-                        alignItems: 'center',
-                        marginRight: theme.spacing(1),
+                        flexGrow: 1,
+                        padding: '10px 8px',
+                        justifyContent: 'flex-start',
+                        textTransform: 'none',
+                        width: '100%',
+                        color: theme.palette.primary.contrastText,
+                        fontWeight: theme.typography.fontWeightMedium,
+                        '&:active': {
+                          // color: theme.palette.primary.main,
+                        },
                       }}
+                      variant="text"
+                      component={NavLink}
+                      disabled={Boolean(page.disabled)}
+                      to={page.href}
                     >
-                      {page.icon}
-                    </Box>
-                    {page.title}
-                  </Button>
-                </ListItem>
-              ),
-          )}
-        </List>
+                      <Box
+                        sx={{
+                          height: 32,
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginRight: theme.spacing(1),
+                        }}
+                      >
+                        {page.icon}
+                      </Box>
+                      {page.title}
+                    </Button>
+                  </ListItem>
+                ),
+            )}
+          </List>
+        </Stack>
         <Box sx={{ mt: 'auto' }}>
           <Footer />
         </Box>

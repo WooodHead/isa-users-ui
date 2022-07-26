@@ -7,12 +7,11 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Stack,
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  selectCurrentUserInfo,
-} from 'app/slices/app/selectors';
+import { selectCurrentUserInfo } from 'app/slices/app/selectors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -117,15 +116,7 @@ export const Profile = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        minHeight: 'fit-content',
-        marginBottom: 1,
-      }}
-    >
+    <Stack direction={'row'} spacing={1}>
       <input
         accept="image/*"
         id="contained-button-file"
@@ -148,7 +139,7 @@ export const Profile = () => {
               width: '60px',
               height: '60px',
               borderStyle: 'solid',
-              borderColor: theme => theme.palette.primary.main,
+              borderColor: theme => theme.palette.primary.contrastText,
             }}
             alt="Profile Picture"
             src={userInfo?.profilePictureUrl || ''}
@@ -179,8 +170,10 @@ export const Profile = () => {
           Remove Profile Picture
         </MenuItem>
       </Menu>
-
-      <Typography variant="h5">{name + ' ' + surname}</Typography>
-    </Box>
+      <Stack spacing={0} justifyContent={'center'} alignItems={'baseline'}>
+        <Typography variant="h5">{name}</Typography>
+        <Typography variant="h5">{surname}</Typography>
+      </Stack>
+    </Stack>
   );
 };

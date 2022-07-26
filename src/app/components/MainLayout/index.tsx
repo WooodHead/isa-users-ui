@@ -32,7 +32,7 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
   return (
     <Box
       sx={{
-        paddingTop: '64px',
+        paddingTop: isDesktop ? '0' : '64px',
         height: '100%',
       }}
     >
