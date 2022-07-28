@@ -116,7 +116,7 @@ export const Profile = () => {
   };
 
   return (
-    <Stack direction={'row'} spacing={1}>
+    <Stack direction={'row'} spacing={0}>
       <input
         accept="image/*"
         id="contained-button-file"

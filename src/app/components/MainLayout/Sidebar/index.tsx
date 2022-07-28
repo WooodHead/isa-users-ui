@@ -8,10 +8,12 @@ import {
   Button,
   Divider,
   Drawer,
+  IconButton,
   Link,
   List,
   ListItem,
   Stack,
+  Typography,
   useTheme,
 } from '@mui/material';
 import { Footer } from 'app/components/MainLayout/Footer';
@@ -66,7 +68,6 @@ export const Sidebar = (props: Props) => {
       sx={{
         width: '240px',
         height: '100%',
-        backgroundColor: theme.palette.primary.main,
         [theme.breakpoints.down('lg')]: {
           height: 'calc(100% - 64px)',
         },
@@ -81,12 +82,14 @@ export const Sidebar = (props: Props) => {
           display: 'flex',
           flexDirection: 'column',
           width: 240,
-          [theme.breakpoints.down('lg')]: {
-            marginTop: '64px',
-          },
           padding: theme.spacing(2),
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
+          [theme.breakpoints.down('lg')]: {
+            backgroundColor: 'inherit',
+            color: theme.palette.text.primary,
+            marginTop: '64px',
+          },
           flex: 1,
         }}
       >
@@ -107,9 +110,24 @@ export const Sidebar = (props: Props) => {
                   <ListItem
                     disableGutters
                     key={page.title}
-                    sx={{ display: 'flex', paddingTop: 0, paddingBottom: 0 }}
+                    sx={{ alignItems: 'flex-start' }}
                   >
-                    <Button
+                    <IconButton
+                      sx={{
+                        borderRadius: 0,
+                        justifyContent: 'flex-start',
+                        width: '100%',
+                      }}
+                      color="inherit"
+                      to={page.href}
+                      component={NavLink}
+                    >
+                      {page.icon}
+                      <Typography sx={{ marginLeft: 1 }}>
+                        {page.title}
+                      </Typography>
+                    </IconButton>
+                    {/* <Button
                       sx={{
                         display: 'flex',
                         flexGrow: 1,
@@ -139,7 +157,7 @@ export const Sidebar = (props: Props) => {
                         {page.icon}
                       </Box>
                       {page.title}
-                    </Button>
+                    </Button> */}
                   </ListItem>
                 ),
             )}
