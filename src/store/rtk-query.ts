@@ -5,17 +5,25 @@ import {
 } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Auth } from 'aws-amplify';
+import { RootState } from 'store/types';
 import { showErrorNotification } from 'utils';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://qvjz6zmwx1.execute-api.eu-central-1.amazonaws.com/prod/',
-  prepareHeaders: async headers => {
+  prepareHeaders: async (headers, { getState }) => {
     const token = await Auth.currentSession().then(s =>
       s.getIdToken().getJwtToken(),
     );
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
+
+    const isaId = (getState() as RootState).app?.isaId;
+
+    if (isaId) {
+      headers.set('x-isa-id', isaId);
+    }
+
     return headers;
   },
 });

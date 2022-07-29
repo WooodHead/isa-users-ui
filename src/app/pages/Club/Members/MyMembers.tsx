@@ -92,7 +92,7 @@ export function Members() {
             </TableHead>
             <TableBody>
               {users?.map(user => (
-                <TableRow key={user.id}>
+                <TableRow key={user.userId}>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
                     {user.name} {user.surname}
@@ -110,7 +110,7 @@ export function Members() {
                       confirmationText={'Remove'}
                       rejectionText={'Cancel'}
                       onConfirmation={() => {
-                        removeUserClicked(user.id);
+                        removeUserClicked(user.userId);
                       }}
                       size="small"
                       variant="outlined"
@@ -123,7 +123,7 @@ export function Members() {
                         confirmationText={'Approve'}
                         rejectionText={'Cancel'}
                         onConfirmation={() => {
-                          approveUserClicked(user.id);
+                          approveUserClicked(user.userId);
                         }}
                         size="small"
                         variant="outlined"

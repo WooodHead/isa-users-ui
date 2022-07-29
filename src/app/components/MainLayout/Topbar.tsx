@@ -50,11 +50,9 @@ export const Topbar = (props: Props) => {
           </Typography> */}
         </Box>
         {authState === AuthState.SignedIn && (
-          <Hidden lgUp>
-            <IconButton color="inherit" onClick={onSidebarOpen}>
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
+          <IconButton color="inherit" onClick={onSidebarOpen}>
+            <MenuIcon />
+          </IconButton>
         )}
       </Toolbar>
     </AppBar>

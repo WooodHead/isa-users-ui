@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Profile } from './Profile';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import { NavLink } from 'react-router-dom';
 import {
   Box,
@@ -47,6 +48,12 @@ export const Sidebar = (props: Props) => {
       href: '/user/clubs',
       show: identityType === 'individual',
       icon: <WorkspacesIcon />,
+    },
+    {
+      title: 'Certificates',
+      href: '/user/certificates',
+      show: identityType === 'individual',
+      icon: <CardMembershipIcon />,
     },
     {
       title: 'Profile',
@@ -127,37 +134,6 @@ export const Sidebar = (props: Props) => {
                         {page.title}
                       </Typography>
                     </IconButton>
-                    {/* <Button
-                      sx={{
-                        display: 'flex',
-                        flexGrow: 1,
-                        padding: '10px 8px',
-                        justifyContent: 'flex-start',
-                        textTransform: 'none',
-                        width: '100%',
-                        color: theme.palette.primary.contrastText,
-                        fontWeight: theme.typography.fontWeightMedium,
-                        '&:active': {
-                          // color: theme.palette.primary.main,
-                        },
-                      }}
-                      variant="text"
-                      component={NavLink}
-                      disabled={Boolean(page.disabled)}
-                      to={page.href}
-                    >
-                      <Box
-                        sx={{
-                          height: 32,
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginRight: theme.spacing(1),
-                        }}
-                      >
-                        {page.icon}
-                      </Box>
-                      {page.title}
-                    </Button> */}
                   </ListItem>
                 ),
             )}

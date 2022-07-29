@@ -32,6 +32,7 @@ import { userApi } from 'app/api/user-api';
 import { showErrorNotification } from 'utils';
 import { clubApi } from 'app/api/club-api';
 import { useClubSlice } from 'app/slices/club';
+import { CertificatesPage } from 'app/pages/User/CertificatesPage/Loadable';
 
 export function App() {
   useAppSlice();
@@ -83,6 +84,7 @@ export function App() {
       Auth.currentUserInfo()
         .then(data => {
           const identityType = data.attributes['custom:identityType'];
+          const isaId = data.attributes['custom:ISA_ID'];
           if (!identityType) {
             dispatch(
               showErrorNotification(
@@ -91,6 +93,7 @@ export function App() {
             );
           } else {
             dispatch(appActions.updateIdentityType(identityType));
+            dispatch(appActions.updateIsaId(isaId));
           }
         })
         .catch(err =>
@@ -117,6 +120,10 @@ export function App() {
           <Route path="/user/profile" component={UserProfilePage} />
         )}
         {isIndividual && <Route path="/user/clubs" component={UserClubsPage} />}
+
+        {isIndividual && (
+          <Route path="/user/certificates" component={CertificatesPage} />
+        )}
 
         {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
 

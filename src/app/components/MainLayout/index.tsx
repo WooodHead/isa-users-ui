@@ -7,7 +7,10 @@ import { useHistory } from 'react-router-dom';
 import { Box, useTheme } from '@mui/system';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
 import { AuthState } from 'app/slices/app/types';
-import { selectAuthState, selectCurrentUserInfo } from 'app/slices/app/selectors';
+import {
+  selectAuthState,
+  selectCurrentUserInfo,
+} from 'app/slices/app/selectors';
 
 export const MainLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -47,7 +50,7 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
           <Box
             component={'main'}
             sx={{
-              height: '100%',
+              height: '100vh',
               ml: isDesktop ? '240px' : '0',
             }}
           >
@@ -58,7 +61,7 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
         <Box
           component={'main'}
           sx={{
-            height: 'calc(100vh - 64px)',
+            height: isDesktop ? '100vh' : 'calc(100vh - 64px)',
           }}
         >
           {children}

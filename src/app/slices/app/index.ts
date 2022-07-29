@@ -18,6 +18,9 @@ const appSlice = createSlice({
     updateIdentityType(state, action: PayloadAction<IdentityType>) {
       state.userIdentityType = action.payload;
     },
+    updateIsaId(state, action: PayloadAction<string>) {
+      state.isaId = action.payload;
+    },
     updateSnackbarNotification(
       state,
       action: PayloadAction<SnackbarNotification | 'error'>,

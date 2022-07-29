@@ -1,5 +1,6 @@
 export interface GetUserAPIResponse {
   cognitoSub: string;
+  userId: string;
   email: string;
   name: string;
   surname: string;
@@ -14,6 +15,7 @@ export interface GetUserAPIResponse {
 
 export interface GetClubAPIResponse {
   cognitoSub: string;
+  clubId: string;
   email: string;
   name: string;
   profilePictureUrl?: string;
@@ -40,7 +42,7 @@ export interface GetClubsOfUserResponse {
 
 export interface GetAllClubsAPIResponse {
   items: {
-    id: string;
+    clubId: string;
     name: string;
     email: string;
     profilePictureUrl?: string;
@@ -49,7 +51,7 @@ export interface GetAllClubsAPIResponse {
 
 export interface GetUsersOfClubResponse {
   items: {
-    id: string;
+    userId: string;
     email: string;
     name: string;
     surname: string;

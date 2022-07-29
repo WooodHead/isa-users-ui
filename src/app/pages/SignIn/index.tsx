@@ -18,9 +18,10 @@ export const SignIn = (props: Props) => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      justifyContent="space-evenly"
+      justifyContent="center"
       sx={{
-        minHeight: '100%',
+        height: '100%',
+        width: '100%',
       }}
     >
       <Stack

@@ -68,7 +68,7 @@ export function AllClubs() {
             </TableHead>
             <TableBody>
               {allClubs?.map((club, keyIndex) => (
-                <TableRow key={club.id}>
+                <TableRow key={club.clubId}>
                   <TableCell>
                     <Box display="flex" alignItems="center">
                       <Avatar
@@ -89,10 +89,10 @@ export function AllClubs() {
                       rejectionText={'Cancel'}
                       size="small"
                       onConfirmation={() => {
-                        requestClicked(club.id);
+                        requestClicked(club.clubId);
                       }}
                       disabled={myClubs?.some(
-                        myClub => myClub.clubId === club.id,
+                        myClub => myClub.clubId === club.clubId,
                       )}
                       variant="outlined"
                     />

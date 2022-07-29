@@ -61,8 +61,7 @@ export const Profile = () => {
   };
 
   const generateS3Key = (ext: string) => {
-    const folder =
-      userInfo?.identityType === 'club' ? userInfo.email : userInfo?.cognitoSub;
+    const folder = userInfo!.isaId;
     return `${folder}/profilePicture_${new Date().toISOString()}.${ext}`;
   };
 
