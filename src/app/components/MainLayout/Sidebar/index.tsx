@@ -89,7 +89,7 @@ export const Sidebar = (props: Props) => {
           display: 'flex',
           flexDirection: 'column',
           width: 240,
-          padding: theme.spacing(2),
+          padding: 2,
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
           [theme.breakpoints.down('lg')]: {
@@ -101,13 +101,6 @@ export const Sidebar = (props: Props) => {
         }}
       >
         <Stack spacing={2} alignItems={'strech'}>
-          <Link
-            sx={{ display: { xs: 'none', lg: 'inherit' } }}
-            href="https://www.slacklineinternational.org"
-            target="_blank"
-          >
-            <img alt="ISA Logo" src="/images/logo-contrast.svg" height="36px" />
-          </Link>
           <Profile />
           <Divider sx={{ borderColor: theme.palette.primary.contrastText }} />
           <List>
@@ -128,6 +121,7 @@ export const Sidebar = (props: Props) => {
                       color="inherit"
                       to={page.href}
                       component={NavLink}
+                      size='small'
                     >
                       {page.icon}
                       <Typography sx={{ marginLeft: 1 }}>

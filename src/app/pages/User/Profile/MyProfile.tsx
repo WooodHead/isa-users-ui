@@ -147,10 +147,11 @@ export function MyProfile() {
           </Grid>
           <Grid item xs={6} lg={6}>
             <InputText
-              label="Emergency Contact Number"
+              label="Secondary Contact Number"
               error={errorMarkedField?.field === 'emergencyContact'}
               helperText={errorMarkedField?.message}
               defaultValue={userInfo!.emergencyContact}
+              placeholderText="Phone number to contact in case of emergency"
               onChange={v => {
                 form.setEmergencyContact(v);
               }}

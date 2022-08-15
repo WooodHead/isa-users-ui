@@ -18,12 +18,6 @@ const baseQuery = fetchBaseQuery({
       headers.set('Authorization', `Bearer ${token}`);
     }
 
-    const isaId = (getState() as RootState).app?.isaId;
-
-    if (isaId) {
-      headers.set('x-isa-id', isaId);
-    }
-
     return headers;
   },
 });

@@ -2,12 +2,16 @@ import {
   Avatar,
   Box,
   CircularProgress,
+  colors,
   Divider,
   IconButton,
+  InputAdornment,
   ListItemIcon,
   Menu,
   MenuItem,
+  OutlinedInput,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -16,6 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 import { Storage } from 'aws-amplify';
 import {
@@ -25,6 +30,7 @@ import {
 } from 'utils';
 import { userApi } from 'app/api/user-api';
 import { clubApi } from 'app/api/club-api';
+import copy from 'clipboard-copy';
 
 export const Profile = () => {
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
@@ -69,7 +75,7 @@ export const Profile = () => {
     const imageUrl =
       s3Key === null
         ? 'undefined'
-        : `http://isa-users-images.s3-website.eu-central-1.amazonaws.com/public/${s3Key}`;
+        : `https://images.slacklineinternational.org/public/${s3Key}`;
     if (userInfo?.identityType === 'individual') {
       updateUser({ profilePictureUrl: imageUrl });
     } else if (userInfo?.identityType === 'club') {
@@ -79,7 +85,6 @@ export const Profile = () => {
   };
 
   const uploadProfilePicture = async (file: File) => {
-    console.log(file.size);
     if (file.size > fileSizeLimitKb() * 1000) {
       dispatch(
         showErrorNotification(`Max file size is ${fileSizeLimitKb()}KB`),
@@ -115,64 +120,91 @@ export const Profile = () => {
   };
 
   return (
-    <Stack direction={'row'} spacing={0}>
-      <input
-        accept="image/*"
-        id="contained-button-file"
-        multiple
-        type="file"
-        onChange={handleUploadClick}
-        style={{ display: 'none' }}
-      />
-      <IconButton
-        onClick={handleClick}
-        aria-controls={open ? 'profile-picture-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-      >
-        {isUpdatingImage || isUpdatingUser || isUpdatingClub ? (
-          <CircularProgress />
-        ) : (
-          <Avatar
-            sx={{
-              width: '60px',
-              height: '60px',
-              borderStyle: 'solid',
-              borderColor: theme => theme.palette.primary.contrastText,
-            }}
-            alt="Profile Picture"
-            src={userInfo?.profilePictureUrl || ''}
-          >
-            {name.substring(0, 1)} {surname?.substring(0, 1)}
-          </Avatar>
-        )}
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="profile-picture-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        transformOrigin={{ horizontal: 'center', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-      >
-        <MenuItem>
-          <ListItemIcon>
-            <AddPhotoAlternateIcon fontSize="small" />
-          </ListItemIcon>
-          <label htmlFor="contained-button-file">Upload Profile Picture</label>
-        </MenuItem>
-        <MenuItem onClick={removeClicked}>
-          <ListItemIcon>
-            <DeleteIcon fontSize="small" />
-          </ListItemIcon>
-          Remove Profile Picture
-        </MenuItem>
-      </Menu>
-      <Stack spacing={0} justifyContent={'center'} alignItems={'baseline'}>
-        <Typography variant="h5">{name}</Typography>
-        <Typography variant="h5">{surname}</Typography>
+    <Stack spacing={1}>
+      <Stack direction={'row'} spacing={0}>
+        <input
+          accept="image/*"
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={handleUploadClick}
+          style={{ display: 'none' }}
+        />
+        <IconButton
+          onClick={handleClick}
+          aria-controls={open ? 'profile-picture-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+        >
+          {isUpdatingImage || isUpdatingUser || isUpdatingClub ? (
+            <CircularProgress />
+          ) : (
+            <Avatar
+              sx={{
+                width: '60px',
+                height: '60px',
+                borderStyle: 'solid',
+                borderColor: theme => theme.palette.primary.contrastText,
+              }}
+              alt="Profile Picture"
+              src={userInfo?.profilePictureUrl || ''}
+            >
+              {name.substring(0, 1)} {surname?.substring(0, 1)}
+            </Avatar>
+          )}
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          id="profile-picture-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          transformOrigin={{ horizontal: 'center', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <AddPhotoAlternateIcon fontSize="small" />
+            </ListItemIcon>
+            <label htmlFor="contained-button-file">
+              Upload Profile Picture
+            </label>
+          </MenuItem>
+          <MenuItem onClick={removeClicked}>
+            <ListItemIcon>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            Remove Profile Picture
+          </MenuItem>
+        </Menu>
+        <Stack spacing={0} justifyContent={'center'} alignItems={'baseline'}>
+          <Typography variant="h6">{name}</Typography>
+          <Typography variant="h6">{surname}</Typography>
+        </Stack>
       </Stack>
+      <Box
+        sx={{
+          // borderRadius: 1,
+          // borderWidth: 1,
+          // borderStyle: 'solid',
+          // borderColor: theme => theme.palette.primary.contrastText,
+          paddingLeft: 1,
+        }}
+      >
+        <Typography variant="caption">ISA ID: </Typography>
+        <Typography variant="caption" sx={{}}>
+          <b>{userInfo?.isaId}</b>
+        </Typography>
+        <Tooltip title={'Copy to clipboard'}>
+          <IconButton
+            onClick={() => copy(userInfo?.isaId ?? '')}
+            size="small"
+            color="inherit"
+          >
+            <ContentCopyIcon sx={{ fontSize: '1rem' }} />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Stack>
   );
 };

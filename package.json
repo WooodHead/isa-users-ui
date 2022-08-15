@@ -27,6 +27,7 @@
     "@types/webpack-env": "1.16.3",
     "aws-amplify": "4.3.26",
     "chalk": "4.1.2",
+    "clipboard-copy": "4.0.1",
     "countries-list": "2.6.1",
     "cross-env": "7.0.3",
     "env-cmd": "10.1.0",

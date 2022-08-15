@@ -9,7 +9,7 @@
         "region": "eu-central-1",
         "mandatorySignIn": true,
         "oauth": {
-          "domain": "isa-users.auth.eu-central-1.amazoncognito.com",
+          "domain": "auth.slacklineinternational.org",
           "scope": ["email", "openid", "aws.cognito.signin.user.admin"],
           "redirectSignIn": "http://localhost:3000",
           "redirectSignOut": "http://localhost:3000",
@@ -17,7 +17,7 @@
         }
       },
       "Storage": {
-        "bucket": "isa-users-images",
+        "bucket": "images.slacklineinternational.org",
         "region": "eu-central-1"
       }
     }

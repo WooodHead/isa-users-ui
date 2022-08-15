@@ -9,15 +9,15 @@
         "region": "eu-central-1",
         "mandatorySignIn": true,
         "oauth": {
-          "domain": "isa-users.auth.eu-central-1.amazoncognito.com",
+          "domain": "auth.slacklineinternational.org",
           "scope": ["email", "openid", "aws.cognito.signin.user.admin"],
-          "redirectSignIn": "https://d2rs9dwrt1t2p3.cloudfront.net",
-          "redirectSignOut": "https://d2rs9dwrt1t2p3.cloudfront.net",
+          "redirectSignIn": "https://account.slacklineinternational.org",
+          "redirectSignOut": "https://account.slacklineinternational.org",
           "responseType": "code"
         }
       },
       "Storage": {
-        "bucket": "isa-users-images",
+        "bucket": "images.slacklineinternational.org",
         "region": "eu-central-1"
       }
     }

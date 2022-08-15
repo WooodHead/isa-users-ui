@@ -76,7 +76,7 @@ export function App() {
       .then(async data => {
         dispatch(appActions.updateAuthState(AuthState.SignedIn));
       })
-      .catch(() => dispatch(appActions.updateAuthState(AuthState.SignedOut)));
+      .catch(() => dispatch(appActions.updateAuthState(AuthState.SigningOut)));
   }, [dispatch]);
 
   useEffect(() => {
@@ -84,25 +84,30 @@ export function App() {
       Auth.currentUserInfo()
         .then(data => {
           const identityType = data.attributes['custom:identityType'];
-          const isaId = data.attributes['custom:ISA_ID'];
           if (!identityType) {
-            dispatch(
-              showErrorNotification(
-                'Something went wrong with your account. Please contact to ISA ',
-              ),
-            );
+            dispatch(appActions.updateAuthState(AuthState.SigningOut));
           } else {
             dispatch(appActions.updateIdentityType(identityType));
-            dispatch(appActions.updateIsaId(isaId));
           }
         })
-        .catch(err =>
-          dispatch(appActions.updateAuthState(AuthState.SignedOut)),
-        );
+        .catch(err => {
+          dispatch(appActions.updateAuthState(AuthState.SigningOut));
+        });
     } else if (authState === AuthState.SigningOut) {
       Auth.signOut();
     }
   }, [authState]);
+
+  const extractCurrentPathAndSearch = () => {
+    if (
+      window.location.pathname &&
+      window.location.pathname !== '' &&
+      window.location.pathname !== '/'
+    ) {
+      return window.location.pathname + window.location.search;
+    }
+    return undefined;
+  };
 
   const signInClicked = () => {
     dispatch(appActions.updateAuthState(AuthState.SigningIn));
@@ -148,7 +153,7 @@ export function App() {
   return (
     <BrowserRouter>
       <Helmet htmlAttributes={{ lang: i18n.language }}>
-        <meta name="description" content="ISA Users" />
+        <meta name="description" content="ISA Account" />
       </Helmet>
       <GlobalStyles styles={{ body: { fontFamily: 'Inter' } }} />
       <MainLayout>

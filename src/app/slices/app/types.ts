@@ -2,7 +2,6 @@ export interface AppState {
   authState?: AuthState;
   snackbarNotification: SnackbarNotification;
   userIdentityType?: IdentityType;
-  isaId?: string;
 }
 export type SnackbarNotification = {
   message: string;
