@@ -5,14 +5,14 @@ import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import { Stack } from '@mui/material';
-import { ClubProfile } from 'app/pages/Club/Profile/ClubProfile';
+import { MyProfile } from 'app/pages/Organization/Profile/MyProfile';
 
-export function ClubProfilePage() {
+export function OrganizationProfilePage() {
   const dispatch = useDispatch();
 
   return (
     <Stack spacing={2} margin={4}>
-      <ClubProfile />
+      <MyProfile />
     </Stack>
   );
 }

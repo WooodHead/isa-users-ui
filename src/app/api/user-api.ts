@@ -1,10 +1,10 @@
-import type { GetClubsOfUserResponse, GetUserAPIResponse } from './types';
+import type { GetOrganizationsOfUserResponse, GetUserAPIResponse } from './types';
 import { baseApi } from 'store/rtk-query';
 import { showSuccessNotification } from 'utils';
 
 export const userApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: ['userDetails', 'userClubs'],
+    addTagTypes: ['userDetails', 'userOrganizations'],
   })
   .injectEndpoints({
     endpoints: builder => ({
@@ -28,31 +28,31 @@ export const userApi = baseApi
           dispatch(showSuccessNotification('Saved Changes'));
         },
       }),
-      getClubsOfUser: builder.query<GetClubsOfUserResponse['items'], void>({
-        query: () => ({ url: `user/clubs` }),
-        providesTags: ['userClubs'],
-        transformResponse(response: GetClubsOfUserResponse) {
+      getOrganizationsOfUser: builder.query<GetOrganizationsOfUserResponse['items'], void>({
+        query: () => ({ url: `user/organizations` }),
+        providesTags: ['userOrganizations'],
+        transformResponse(response: GetOrganizationsOfUserResponse) {
           return response.items;
         },
       }),
-      leaveClub: builder.mutation<void, string>({
+      leaveOrganization: builder.mutation<void, string>({
         query: id => ({
-          url: `user/club/${id}`,
+          url: `user/organization/${id}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['userClubs'],
+        invalidatesTags: ['userOrganizations'],
       }),
-      joinClub: builder.mutation<void, string>({
+      joinOrganization: builder.mutation<void, string>({
         query: id => ({
-          url: `user/club/${id}/join`,
+          url: `user/organization/${id}/join`,
           method: 'POST',
         }),
-        invalidatesTags: ['userClubs'],
+        invalidatesTags: ['userOrganizations'],
         async onQueryStarted(_, { dispatch, queryFulfilled }) {
           await queryFulfilled;
           dispatch(
             showSuccessNotification(
-              'Email has been sent to the club for confirmation',
+              'Email has been sent to the organization for confirmation',
             ),
           );
         },

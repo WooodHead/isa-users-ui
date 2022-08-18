@@ -1,1 +1,1 @@
-type IdentityType = 'individual' | 'club';
+type IdentityType = 'individual' | 'organization';

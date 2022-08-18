@@ -4,17 +4,15 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
-import { MyClubs } from 'app/pages/User/UserClubs/MyClubs';
-import { AllClubs } from 'app/pages/User/UserClubs/AllClubs';
 import { Stack } from '@mui/material';
+import { Members } from 'app/pages/Organization/Members/MyMembers';
 
-export function UserClubsPage() {
+export function OrganizationMembersPage() {
   const dispatch = useDispatch();
 
   return (
     <Stack spacing={2} margin={4}>
-      <MyClubs />
-      <AllClubs />
+      <Members />
     </Stack>
   );
 }

@@ -24,20 +24,20 @@ import NotificationSnackbar from 'app/components/NotificationSnackbar';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
 import { UserProfilePage } from './pages/User/Profile/Loadable';
-import { UserClubsPage } from './pages/User/UserClubs/Loadable';
-import { ClubProfilePage } from 'app/pages/Club/Profile/Loadable';
-import { ClubMembersPage } from 'app/pages/Club/Members/Loadable';
+import { UserOrganizationsPage } from './pages/User/UserOrganizations/Loadable';
+import { OrganizationProfilePage } from 'app/pages/Organization/Profile/Loadable';
+import { OrganizationMembersPage } from 'app/pages/Organization/Members/Loadable';
 
 import { userApi } from 'app/api/user-api';
 import { showErrorNotification } from 'utils';
-import { clubApi } from 'app/api/club-api';
-import { useClubSlice } from 'app/slices/club';
+import { organizationApi } from 'app/api/organization-api';
+import { useOrganizationSlice } from 'app/slices/organization';
 import { CertificatesPage } from 'app/pages/User/CertificatesPage/Loadable';
 
 export function App() {
   useAppSlice();
   useUserSlice();
-  useClubSlice();
+  useOrganizationSlice();
 
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -47,10 +47,10 @@ export function App() {
   const snackbarNotification = useSelector(selectSnackbarNotification);
 
   const isIndividual = currentUserInfo?.identityType === 'individual';
-  const isClub = currentUserInfo?.identityType === 'club';
+  const isOrganization = currentUserInfo?.identityType === 'organization';
 
   userApi.useGetUserDetailsQuery(undefined, { skip: !isIndividual });
-  clubApi.useGetClubDetailsQuery(undefined, { skip: !isClub });
+  organizationApi.useGetOrganizationDetailsQuery(undefined, { skip: !isOrganization });
 
   useEffect(() => {
     const amplifyConfig =
@@ -124,20 +124,20 @@ export function App() {
         {isIndividual && (
           <Route path="/user/profile" component={UserProfilePage} />
         )}
-        {isIndividual && <Route path="/user/clubs" component={UserClubsPage} />}
+        {isIndividual && <Route path="/user/organizations" component={UserOrganizationsPage} />}
 
         {isIndividual && (
           <Route path="/user/certificates" component={CertificatesPage} />
         )}
 
-        {isClub && <Route path="/club/profile" component={ClubProfilePage} />}
+        {isOrganization && <Route path="/organization/profile" component={OrganizationProfilePage} />}
 
-        {isClub && <Route path="/club/members" component={ClubMembersPage} />}
+        {isOrganization && <Route path="/organization/members" component={OrganizationMembersPage} />}
         <Route path="*">
           {isIndividual ? (
             <Redirect to="/user/profile" />
           ) : (
-            <Redirect to="/club/profile" />
+            <Redirect to="/organization/profile" />
           )}
         </Route>
       </Switch>

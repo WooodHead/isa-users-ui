@@ -2,7 +2,7 @@ import { Reducer, AnyAction } from '@reduxjs/toolkit';
 
 import type { AppState } from 'app/slices/app/types';
 import type { UserState } from 'app/slices/user/types';
-import type { ClubState } from 'app/slices/club/types';
+import type { OrganizationState } from 'app/slices/organization/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 type RequiredKeys<T> = {
@@ -33,6 +33,6 @@ export interface RootState {
   api: any;
   app?: AppState;
   user?: UserState;
-  club?: ClubState;
+  organization?: OrganizationState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

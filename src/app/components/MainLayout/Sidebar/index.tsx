@@ -44,8 +44,8 @@ export const Sidebar = (props: Props) => {
       icon: <AccountCircleIcon />,
     },
     {
-      title: 'Clubs',
-      href: '/user/clubs',
+      title: 'Organizations',
+      href: '/user/organizations',
       show: identityType === 'individual',
       icon: <WorkspacesIcon />,
     },
@@ -57,15 +57,15 @@ export const Sidebar = (props: Props) => {
     },
     {
       title: 'Profile',
-      href: '/club/profile',
+      href: '/organization/profile',
       disabled: false,
-      show: identityType === 'club',
+      show: identityType === 'organization',
       icon: <AccountCircleIcon />,
     },
     {
       title: 'Members',
-      href: '/club/members',
-      show: identityType === 'club',
+      href: '/organization/members',
+      show: identityType === 'organization',
       icon: <WorkspacesIcon />,
     },
   ];

@@ -25,19 +25,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 
-import { clubApi } from 'app/api/club-api';
+import { organizationApi } from 'app/api/organization-api';
 
 export function Members() {
   const dispatch = useDispatch();
 
   const { data: users, isLoading: isUsersLoading } =
-    clubApi.useGetUsersOfClubQuery();
+    organizationApi.useGetUsersOfOrganizationQuery();
 
   const [approveUser, { isLoading: isApprovingUser }] =
-    clubApi.useApproveUserMutation();
+    organizationApi.useApproveUserMutation();
 
   const [removeUser, { isLoading: isRemovingUser }] =
-    clubApi.useRemoveUserMutation();
+    organizationApi.useRemoveUserMutation();
 
   const removeUserClicked = (userId: string) => {
     removeUser(userId);

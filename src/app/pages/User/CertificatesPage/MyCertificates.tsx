@@ -26,16 +26,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import { userApi } from 'app/api/user-api';
 
-export function MyClubs() {
+export function MyCertificates() {
   const dispatch = useDispatch();
 
-  const { data: clubs, isLoading: isClubsLoading } =
-    userApi.useGetClubsOfUserQuery();
-  const [leaveClub, { isLoading: isLeavingClub }] =
-    userApi.useLeaveClubMutation();
+  const { data: organizations, isLoading: isOrganizationsLoading } =
+    userApi.useGetOrganizationsOfUserQuery();
+  const [leaveOrganization, { isLoading: isLeavingOrganization }] =
+    userApi.useLeaveOrganizationMutation();
 
-  const leaveClubClicked = (clubId: string) => {
-    leaveClub(clubId);
+  const leaveOrganizationClicked = (organizationId: string) => {
+    leaveOrganization(organizationId);
   };
 
   let c = [] as any;
@@ -43,7 +43,7 @@ export function MyClubs() {
     <Card>
       <CardHeader title="My Certificates" />
       <CardContent>
-        {isClubsLoading || isLeavingClub ? (
+        {isOrganizationsLoading || isLeavingOrganization ? (
           <CircularProgress />
         ) : c?.length === 0 ? (
           <Typography>You have no certificates</Typography>
@@ -51,24 +51,24 @@ export function MyClubs() {
           <Table>
             <TableHead sx={{ backgroundColor: colors.grey[100] }}>
               <TableRow>
-                <TableCell style={{ width: '60%' }}>Club</TableCell>
+                <TableCell style={{ width: '60%' }}>Organization</TableCell>
                 <TableCell style={{ width: '20%' }}>Status</TableCell>
                 <TableCell style={{ width: '20%' }}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {c?.map((club, keyIndex) => (
-                <TableRow key={club.clubId}>
-                  <TableCell>{club.name}</TableCell>
+              {c?.map((organization, keyIndex) => (
+                <TableRow key={organization.organizationId}>
+                  <TableCell>{organization.name}</TableCell>
                   <TableCell>
                     <ButtonWithConfirmation
                       icon={<DeleteIcon />}
                       buttonText="Leave"
-                      title={'Do you really want to leave this club?'}
+                      title={'Do you really want to leave this organization?'}
                       confirmationText={'Leave'}
                       rejectionText={'Cancel'}
                       onConfirmation={() => {
-                        leaveClubClicked(club.clubId);
+                        leaveOrganizationClicked(organization.organizationId);
                       }}
                       // size="small"
                       variant="outlined"

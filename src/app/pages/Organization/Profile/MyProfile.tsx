@@ -20,20 +20,20 @@ import { InputDate } from 'app/components/InputField/InputDate';
 import { selectUserInfo } from 'app/slices/user/selectors';
 import { showErrorNotification } from 'utils';
 import { CircularProgress } from '@mui/material';
-import { selectClubInfo } from 'app/slices/club/selectors';
-import { clubApi } from 'app/api/club-api';
-import { useProfileForm } from 'app/pages/Club/Profile/useProfileForm';
+import { selectOrganizationInfo } from 'app/slices/organization/selectors';
+import { organizationApi } from 'app/api/organization-api';
+import { useProfileForm } from 'app/pages/Organization/Profile/useProfileForm';
 
-export function ClubProfile() {
+export function MyProfile() {
   const dispatch = useDispatch();
 
   const [errorMarkedField, setErrorMarkedField] =
     useState<{ field: string; message: string }>();
 
-  const userInfo = useSelector(selectClubInfo);
+  const userInfo = useSelector(selectOrganizationInfo);
   const form = useProfileForm();
-  const [updateClub, { isLoading: isSaving }] =
-    clubApi.useUpdateClubDetailsMutation();
+  const [updateOrganization, { isLoading: isSaving }] =
+    organizationApi.useUpdateOrganizationDetailsMutation();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -46,13 +46,13 @@ export function ClubProfile() {
       dispatch(showErrorNotification(message));
     } else {
       setErrorMarkedField(undefined);
-      updateClub(result.data!);
+      updateOrganization(result.data!);
     }
   };
 
   return (
     <Card>
-      <CardHeader title="Club Profile" />
+      <CardHeader title="Organization Profile" />
       {/* <Divider /> */}
       <CardContent>
         <Grid

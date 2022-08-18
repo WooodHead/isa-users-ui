@@ -24,38 +24,38 @@ import {
 import { CircularProgress } from '@mui/material';
 import { ButtonWithConfirmation } from 'app/components/ButtonWithConfirmation';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
-import { clubApi } from 'app/api/club-api';
+import { organizationApi } from 'app/api/organization-api';
 import { userApi } from 'app/api/user-api';
 
-export function AllClubs() {
+export function AllOrganizations() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { isDesktop } = useMediaQuery();
 
   // const userInfo = useSelector(selectUserInfo);
-  const { data: allClubs, isLoading: isClubsLoading } =
-    clubApi.useGetAllClubsQuery(undefined, {});
+  const { data: allOrganizations, isLoading: isOrganizationsLoading } =
+    organizationApi.useGetAllOrganizationsQuery(undefined, {});
 
-  const { data: myClubs } = userApi.useGetClubsOfUserQuery();
+  const { data: myOrganizations } = userApi.useGetOrganizationsOfUserQuery();
 
-  const [joinClub] = userApi.useJoinClubMutation();
+  const [joinOrganization] = userApi.useJoinOrganizationMutation();
 
-  const requestClicked = (clubId: string) => {
-    joinClub(clubId);
+  const requestClicked = (organizationId: string) => {
+    joinOrganization(organizationId);
   };
 
   return (
     <Card>
-      <CardHeader title="Clubs List (Members of ISA)" />
+      <CardHeader title="Organizations List (Members of ISA)" />
       <CardContent>
-        {isClubsLoading ? (
+        {isOrganizationsLoading ? (
           <CircularProgress />
         ) : (
           <Table>
             <TableHead sx={{ backgroundColor: colors.grey[100] }}>
               <TableRow>
                 <TableCell style={{ width: isDesktop ? '80%' : '50%' }}>
-                  Club
+                  Organization
                 </TableCell>
                 <TableCell
                   style={{
@@ -67,32 +67,32 @@ export function AllClubs() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {allClubs?.map((club, keyIndex) => (
-                <TableRow key={club.clubId}>
+              {allOrganizations?.map((organization, keyIndex) => (
+                <TableRow key={organization.organizationId}>
                   <TableCell>
                     <Box display="flex" alignItems="center">
                       <Avatar
-                        alt="Club Picture"
-                        src={club?.profilePictureUrl || ''}
+                        alt="Organization Picture"
+                        src={organization?.profilePictureUrl || ''}
                         sx={{ mr: 1 }}
                       >
-                        {club.name.substring(0, 1)}
+                        {organization.name.substring(0, 1)}
                       </Avatar>
-                      {club.name}
+                      {organization.name}
                     </Box>
                   </TableCell>
                   <TableCell>
                     <ButtonWithConfirmation
                       buttonText="Request to join"
-                      title={'We will notify the club via email'}
+                      title={'We will notify the organization via email'}
                       confirmationText={'Send Request'}
                       rejectionText={'Cancel'}
                       size="small"
                       onConfirmation={() => {
-                        requestClicked(club.clubId);
+                        requestClicked(organization.organizationId);
                       }}
-                      disabled={myClubs?.some(
-                        myClub => myClub.clubId === club.clubId,
+                      disabled={myOrganizations?.some(
+                        myOrganization => myOrganization.organizationId === organization.organizationId,
                       )}
                       variant="outlined"
                     />

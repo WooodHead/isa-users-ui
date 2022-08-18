@@ -29,7 +29,7 @@ import {
   showSuccessNotification,
 } from 'utils';
 import { userApi } from 'app/api/user-api';
-import { clubApi } from 'app/api/club-api';
+import { organizationApi } from 'app/api/organization-api';
 import copy from 'clipboard-copy';
 
 export const Profile = () => {
@@ -45,8 +45,8 @@ export const Profile = () => {
   const [updateUser, { isLoading: isUpdatingUser }] =
     userApi.useUpdateUserDetailsMutation();
 
-  const [updateClub, { isLoading: isUpdatingClub }] =
-    clubApi.useUpdateClubDetailsMutation();
+  const [updateOrganization, { isLoading: isUpdatingOrganization }] =
+    organizationApi.useUpdateOrganizationDetailsMutation();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -59,7 +59,7 @@ export const Profile = () => {
   };
 
   const fileSizeLimitKb = () => {
-    if (userInfo?.identityType === 'club') {
+    if (userInfo?.identityType === 'organization') {
       return 20;
     } else {
       return 500;
@@ -78,8 +78,8 @@ export const Profile = () => {
         : `https://images.slacklineinternational.org/public/${s3Key}`;
     if (userInfo?.identityType === 'individual') {
       updateUser({ profilePictureUrl: imageUrl });
-    } else if (userInfo?.identityType === 'club') {
-      updateClub({ profilePictureUrl: imageUrl });
+    } else if (userInfo?.identityType === 'organization') {
+      updateOrganization({ profilePictureUrl: imageUrl });
     }
     setIsUpdatingImage(false);
   };
@@ -136,7 +136,7 @@ export const Profile = () => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          {isUpdatingImage || isUpdatingUser || isUpdatingClub ? (
+          {isUpdatingImage || isUpdatingUser || isUpdatingOrganization ? (
             <CircularProgress />
           ) : (
             <Avatar

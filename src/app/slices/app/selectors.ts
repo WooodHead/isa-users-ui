@@ -4,7 +4,7 @@ import { initialState } from '.';
 
 const selectSlice = (state?: RootState) => state?.app ?? initialState;
 const selectUserSlice = (state?: RootState) => state?.user;
-const selectClubSlice = (state?: RootState) => state?.club;
+const selectOrganizationSlice = (state?: RootState) => state?.organization;
 
 export const selectAuthState = createSelector(
   [selectSlice],
@@ -17,8 +17,8 @@ export const selectSnackbarNotification = createSelector(
 );
 
 export const selectCurrentUserInfo = createSelector(
-  [selectSlice, selectUserSlice, selectClubSlice],
-  (appState, userState, clubState) => {
+  [selectSlice, selectUserSlice, selectOrganizationSlice],
+  (appState, userState, organizationState) => {
     const info = { identityType: appState.userIdentityType };
     if (appState.userIdentityType === 'individual') {
       return {
@@ -27,10 +27,10 @@ export const selectCurrentUserInfo = createSelector(
         isaId: userState?.userInfo?.userId,
       };
     }
-    if (appState.userIdentityType === 'club') {
+    if (appState.userIdentityType === 'organization') {
       return {
         ...info,
-        ...clubState?.clubInfo,
+        ...organizationState?.organizationInfo,
         isaId: userState?.userInfo?.userId,
       };
     }

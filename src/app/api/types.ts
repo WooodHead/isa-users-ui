@@ -13,9 +13,9 @@ export interface GetUserAPIResponse {
   profilePictureUrl?: string;
 }
 
-export interface GetClubAPIResponse {
+export interface GetOrganizationAPIResponse {
   cognitoSub: string;
-  clubId: string;
+  organizationId: string;
   email: string;
   name: string;
   profilePictureUrl?: string;
@@ -25,9 +25,9 @@ export interface GetClubAPIResponse {
   contactPhone?: string;
 }
 
-export interface GetClubsOfUserResponse {
+export interface GetOrganizationsOfUserResponse {
   items: {
-    clubId: string;
+    organizationId: string;
     email: string;
     name: string;
     isPendingApproval?: boolean;
@@ -40,16 +40,16 @@ export interface GetClubsOfUserResponse {
   }[];
 }
 
-export interface GetAllClubsAPIResponse {
+export interface GetAllOrganizationsAPIResponse {
   items: {
-    clubId: string;
+    organizationId: string;
     name: string;
     email: string;
     profilePictureUrl?: string;
   }[];
 }
 
-export interface GetUsersOfClubResponse {
+export interface GetUsersOfOrganizationResponse {
   items: {
     userId: string;
     email: string;

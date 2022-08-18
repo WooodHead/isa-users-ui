@@ -1,15 +1,17 @@
-import { selectClubInfo } from 'app/slices/club/selectors';
+import { selectOrganizationInfo } from 'app/slices/organization/selectors';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { z } from 'zod';
 
 export const useProfileForm = () => {
-  const clubInfo = useSelector(selectClubInfo);
+  const organizationInfo = useSelector(selectOrganizationInfo);
 
-  const [name, setName] = useState(clubInfo!.name);
-  const [contactPhone, setContactPhone] = useState(clubInfo!.contactPhone);
-  const [city, setCity] = useState(clubInfo!.city);
-  const [country, setCountry] = useState(clubInfo!.country);
+  const [name, setName] = useState(organizationInfo!.name);
+  const [contactPhone, setContactPhone] = useState(
+    organizationInfo!.contactPhone,
+  );
+  const [city, setCity] = useState(organizationInfo!.city);
+  const [country, setCountry] = useState(organizationInfo!.country);
 
   const values = () => {
     return {
@@ -29,9 +31,9 @@ export const useProfileForm = () => {
       city: z.string().trim().optional(),
       country: z.string().trim().optional(),
     });
-    const club = values();
+    const organization = values();
 
-    const data = profileSchema.safeParse(club);
+    const data = profileSchema.safeParse(organization);
 
     if (!data.success) {
       return {

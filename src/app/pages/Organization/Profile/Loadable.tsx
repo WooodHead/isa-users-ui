@@ -4,7 +4,7 @@
 
 import { lazyLoad } from 'utils/loadable';
 
-export const ClubProfilePage = lazyLoad(
+export const OrganizationProfilePage = lazyLoad(
   () => import('./index'),
-  module => module.ClubProfilePage,
+  module => module.OrganizationProfilePage,
 );

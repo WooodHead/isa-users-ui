@@ -26,16 +26,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import { userApi } from 'app/api/user-api';
 
-export function MyClubs() {
+export function MyOrganizations() {
   const dispatch = useDispatch();
 
-  const { data: clubs, isLoading: isClubsLoading } =
-    userApi.useGetClubsOfUserQuery();
-  const [leaveClub, { isLoading: isLeavingClub }] =
-    userApi.useLeaveClubMutation();
+  const { data: organizations, isLoading: isOrganizationsLoading } =
+    userApi.useGetOrganizationsOfUserQuery();
+  const [leaveOrganization, { isLoading: isLeavingOrganization }] =
+    userApi.useLeaveOrganizationMutation();
 
-  const leaveClubClicked = (clubId: string) => {
-    leaveClub(clubId);
+  const leaveOrganizationClicked = (organizationId: string) => {
+    leaveOrganization(organizationId);
   };
 
   const StatusCell = (props: { isPendingApproval?: boolean }) => {
@@ -65,28 +65,28 @@ export function MyClubs() {
 
   return (
     <Card>
-      <CardHeader title="My Clubs" />
+      <CardHeader title="My Organizations" />
       <CardContent>
-        {isClubsLoading || isLeavingClub ? (
+        {isOrganizationsLoading || isLeavingOrganization ? (
           <CircularProgress />
-        ) : clubs?.length === 0 ? (
-          <Typography>You have no clubs</Typography>
+        ) : organizations?.length === 0 ? (
+          <Typography>You are not a member of any organization</Typography>
         ) : (
           <Table>
             <TableHead sx={{ backgroundColor: colors.grey[100] }}>
               <TableRow>
-                <TableCell style={{ width: '60%' }}>Club</TableCell>
+                <TableCell style={{ width: '60%' }}>Organization</TableCell>
                 <TableCell style={{ width: '20%' }}>Status</TableCell>
                 <TableCell style={{ width: '20%' }}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {clubs?.map((club, keyIndex) => (
-                <TableRow key={club.clubId}>
-                  <TableCell>{club.name}</TableCell>
+              {organizations?.map((organization, keyIndex) => (
+                <TableRow key={organization.organizationId}>
+                  <TableCell>{organization.name}</TableCell>
                   <TableCell>
                     <StatusCell
-                      isPendingApproval={club.isPendingApproval}
+                      isPendingApproval={organization.isPendingApproval}
                     ></StatusCell>
                   </TableCell>
 
@@ -94,11 +94,11 @@ export function MyClubs() {
                     <ButtonWithConfirmation
                       icon={<DeleteIcon />}
                       buttonText="Leave"
-                      title={'Do you really want to leave this club?'}
+                      title={'Do you really want to leave this organization?'}
                       confirmationText={'Leave'}
                       rejectionText={'Cancel'}
                       onConfirmation={() => {
-                        leaveClubClicked(club.clubId);
+                        leaveOrganizationClicked(organization.organizationId);
                       }}
                       // size="small"
                       variant="outlined"
