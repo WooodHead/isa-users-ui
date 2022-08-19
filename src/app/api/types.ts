@@ -60,3 +60,11 @@ export interface GetUsersOfOrganizationResponse {
     profilePictureUrl?: string;
   }[];
 }
+
+export interface GetAllCertificatesAPIResponse {
+  items: {
+    range: string;
+    headers?: string[];
+    values: string[][];
+  }[];
+}
