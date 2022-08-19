@@ -4,7 +4,7 @@
 
 import { lazyLoad } from 'utils/loadable';
 
-export const CertificatesPage = lazyLoad(
+export const UserCertificates = lazyLoad(
   () => import('./index'),
-  module => module.CertificatesPage,
+  module => module.UserCertificates,
 );

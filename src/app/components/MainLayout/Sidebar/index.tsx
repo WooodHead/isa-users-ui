@@ -68,6 +68,13 @@ export const Sidebar = (props: Props) => {
       show: identityType === 'organization',
       icon: <WorkspacesIcon />,
     },
+
+    {
+      title: 'Certificates',
+      href: '/organization/certificates',
+      show: identityType === 'organization',
+      icon: <CardMembershipIcon />,
+    },
   ];
 
   return (
@@ -121,7 +128,7 @@ export const Sidebar = (props: Props) => {
                       color="inherit"
                       to={page.href}
                       component={NavLink}
-                      size='small'
+                      size="small"
                     >
                       {page.icon}
                       <Typography sx={{ marginLeft: 1 }}>

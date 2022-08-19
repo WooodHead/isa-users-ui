@@ -92,7 +92,9 @@ export function AllOrganizations() {
                         requestClicked(organization.organizationId);
                       }}
                       disabled={myOrganizations?.some(
-                        myOrganization => myOrganization.organizationId === organization.organizationId,
+                        myOrganization =>
+                          myOrganization.organizationId ===
+                          organization.organizationId,
                       )}
                       variant="outlined"
                     />

@@ -31,7 +31,7 @@ export const selectCurrentUserInfo = createSelector(
       return {
         ...info,
         ...organizationState?.organizationInfo,
-        isaId: userState?.userInfo?.userId,
+        isaId: organizationState?.organizationInfo?.organizationId,
       };
     }
   },

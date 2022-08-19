@@ -32,7 +32,8 @@ import { userApi } from 'app/api/user-api';
 import { showErrorNotification } from 'utils';
 import { organizationApi } from 'app/api/organization-api';
 import { useOrganizationSlice } from 'app/slices/organization';
-import { CertificatesPage } from 'app/pages/User/CertificatesPage/Loadable';
+import { UserCertificates } from 'app/pages/User/UserCertificates/Loadable';
+import { OrganizationCertificates } from 'app/pages/Organization/OrganizationCertificates/Loadable';
 
 export function App() {
   useAppSlice();
@@ -50,7 +51,9 @@ export function App() {
   const isOrganization = currentUserInfo?.identityType === 'organization';
 
   userApi.useGetUserDetailsQuery(undefined, { skip: !isIndividual });
-  organizationApi.useGetOrganizationDetailsQuery(undefined, { skip: !isOrganization });
+  organizationApi.useGetOrganizationDetailsQuery(undefined, {
+    skip: !isOrganization,
+  });
 
   useEffect(() => {
     const amplifyConfig =
@@ -124,15 +127,35 @@ export function App() {
         {isIndividual && (
           <Route path="/user/profile" component={UserProfilePage} />
         )}
-        {isIndividual && <Route path="/user/organizations" component={UserOrganizationsPage} />}
-
         {isIndividual && (
-          <Route path="/user/certificates" component={CertificatesPage} />
+          <Route path="/user/organizations" component={UserOrganizationsPage} />
         )}
 
-        {isOrganization && <Route path="/organization/profile" component={OrganizationProfilePage} />}
+        {isIndividual && (
+          <Route path="/user/certificates" component={UserCertificates} />
+        )}
 
-        {isOrganization && <Route path="/organization/members" component={OrganizationMembersPage} />}
+        {isOrganization && (
+          <Route
+            path="/organization/profile"
+            component={OrganizationProfilePage}
+          />
+        )}
+
+        {isOrganization && (
+          <Route
+            path="/organization/members"
+            component={OrganizationMembersPage}
+          />
+        )}
+
+        {isOrganization && (
+          <Route
+            path="/organization/certificates"
+            component={OrganizationCertificates}
+          />
+        )}
+
         <Route path="*">
           {isIndividual ? (
             <Redirect to="/user/profile" />
