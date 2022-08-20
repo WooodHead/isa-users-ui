@@ -1,4 +1,7 @@
-import type { GetOrganizationsOfUserResponse, GetUserAPIResponse } from './types';
+import type {
+  GetOrganizationsOfUserResponse,
+  GetUserAPIResponse,
+} from './types';
 import { baseApi } from 'store/rtk-query';
 import { showSuccessNotification } from 'utils';
 
@@ -28,7 +31,10 @@ export const userApi = baseApi
           dispatch(showSuccessNotification('Saved Changes'));
         },
       }),
-      getOrganizationsOfUser: builder.query<GetOrganizationsOfUserResponse['items'], void>({
+      getOrganizationsOfUser: builder.query<
+        GetOrganizationsOfUserResponse['items'],
+        void
+      >({
         query: () => ({ url: `user/organizations` }),
         providesTags: ['userOrganizations'],
         transformResponse(response: GetOrganizationsOfUserResponse) {

@@ -76,7 +76,7 @@
     "eslint": "eslint --ext js,ts,tsx",
     "lint": "yarn run eslint src",
     "lint:fix": "yarn run eslint --fix src",
-    "prettify": "prettier --write",
+    "prettifyAll": "prettier --write '{src,test}/**/*.tsx'",
     "prepare": "husky install",
     "deploy": "npm run build  && env-cmd -f .env.production sh ./internals/deployToS3.sh"
   },
