@@ -13,6 +13,9 @@ export const parseCertificatesFromSpreadsheet = (
       ...parseInstructors(spreadsheetItem.range, spreadsheetItem.values),
     );
     certificates.push(
+      ...parseRiggers(spreadsheetItem.range, spreadsheetItem.values),
+    );
+    certificates.push(
       ...parseHonoraryMembers(spreadsheetItem.range, spreadsheetItem.values),
     );
   }
@@ -29,6 +32,28 @@ const parseInstructors = (range: string, values: string[][]) => {
     items.push({
       certificateType: 'instructor',
       name: `Instructor Level ${row[4].trim()}`,
+      languages: ['en'],
+      data: {
+        name: row[2].trim().toUpperCase(),
+        surname: row[3].trim().toUpperCase(),
+        level: row[4].trim().toUpperCase(),
+        startDate: row[5].trim().toUpperCase(),
+        endDate: row[6].trim().toUpperCase(),
+      },
+    });
+  }
+  return items;
+};
+
+const parseRiggers = (range: string, values: string[][]) => {
+  if (!range.includes('Riggers')) {
+    return [];
+  }
+  const items: CertificateItem[] = [];
+  for (const row of values) {
+    items.push({
+      certificateType: 'rigger',
+      name: `Rigger Level ${row[4].trim()}`,
       languages: ['en'],
       data: {
         name: row[2].trim().toUpperCase(),

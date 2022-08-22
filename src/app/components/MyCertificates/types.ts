@@ -1,5 +1,5 @@
 export interface CertificateItem {
-  certificateType: 'instructor' | 'honoraryMember';
+  certificateType: 'instructor' | 'rigger' | 'honoraryMember';
   name: string;
   languages: string[];
   data: any;
