@@ -6,6 +6,7 @@ import {
   isaRed,
   loadPDFTemplate,
 } from 'app/components/MyCertificates/pdfGenerators/utils';
+import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerators/types';
 
 interface Props {
   fullname: string;
@@ -22,7 +23,7 @@ export async function generate(
   const { boldFont, page, pageHeight, pageWidth, pdfDoc, semiboldFont } =
     await loadPDFTemplate(blankPDF);
 
-  const modifications = {
+  const modifications: PDFModificationsObject<Props> = {
     fullname: {
       size: 21,
       font: boldFont,
@@ -38,14 +39,11 @@ export async function generate(
       y: convertToYCoordinate(401, pageHeight, semiboldFont, 16),
     },
   };
-
-  page.drawText(data.fullname, {
-    ...modifications.fullname,
-  });
-
-  page.drawText(data.date, {
-    ...modifications.date,
-  });
+  for (const [key, value] of Object.entries(modifications)) {
+    page.drawText(data[key], {
+      ...value,
+    });
+  }
 
   return pdfDoc;
 }

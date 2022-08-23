@@ -3,7 +3,11 @@ import { CertificateItem } from 'app/components/MyCertificates/types';
 
 import * as honoraryMembers from './pdfGenerators/honorary-members';
 import * as instructorB from './pdfGenerators/instructor-b';
+import * as instructorC from './pdfGenerators/instructor-c';
 import * as rigger from './pdfGenerators/rigger';
+import * as isaMember from './pdfGenerators/isa-membership';
+import * as approvedGear from './pdfGenerators/approved-gear';
+import * as worldRecord from './pdfGenerators/world-record';
 
 export const generateCertificate = async (
   item: CertificateItem,
@@ -19,11 +23,20 @@ export const generateCertificate = async (
         pdf = await instructorB.generate(language, item.data);
       }
       if (item.data.level.toUpperCase() === 'C') {
-        pdf = await instructorB.generate(language, item.data);
+        pdf = await instructorC.generate(language, item.data);
       }
       break;
     case 'rigger':
       pdf = await rigger.generate(language, item.data);
+      break;
+    case 'isa-membership':
+      pdf = await isaMember.generate(language, item.data);
+      break;
+    case 'approved-gear':
+      pdf = await approvedGear.generate(language, item.data);
+      break;
+    case 'world-record':
+      pdf = await worldRecord.generate(language, item.data);
       break;
     default:
       break;

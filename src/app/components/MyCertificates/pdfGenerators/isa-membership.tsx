@@ -1,4 +1,4 @@
-import PDF_EN from './templates/instructor-b-en.pdf';
+import PDF_EN from './templates/isa-member-en.pdf';
 
 import { PDFDocument } from 'pdf-lib';
 import {
@@ -10,11 +10,10 @@ import {
 import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerators/types';
 
 interface Props {
+  membership: string;
   name: string;
-  surname: string;
-  level: string;
-  startDate: string;
-  endDate: string;
+  date: string;
+  location: string;
 }
 
 export const PDFs = { en: PDF_EN };
@@ -28,29 +27,34 @@ export async function generate(
   const { boldFont, page, pageHeight, pageWidth, pdfDoc, semiboldFont } =
     await loadPDFTemplate(blankPDF);
 
-  const fullname = `${data.name} ${data.surname}`;
-
   const modifications: PDFModificationsObject<Props> = {
-    fullname: {
+    membership: {
+      size: 16,
+      font: semiboldFont,
+      color: isaBlue,
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.membership, 16) / 2,
+      y: convertToYCoordinate(208, pageHeight, boldFont, 21),
+    },
+    name: {
       size: 21,
       font: boldFont,
       color: isaRed,
-      x: pageWidth / 2 - boldFont.widthOfTextAtSize(fullname, 21) / 2,
-      y: convertToYCoordinate(231, pageHeight, boldFont, 21),
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.name, 21) / 2,
+      y: convertToYCoordinate(241, pageHeight, boldFont, 21),
     },
-    startDate: {
+    date: {
       size: 16,
-      font: semiboldFont,
+      font: boldFont,
       color: isaBlue,
-      x: 391,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.date, 16) / 2,
+      y: convertToYCoordinate(321, pageHeight, semiboldFont, 16),
     },
-    endDate: {
+    location: {
       size: 16,
-      font: semiboldFont,
+      font: boldFont,
       color: isaBlue,
-      x: 616,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.location, 16) / 2,
+      y: convertToYCoordinate(373, pageHeight, semiboldFont, 16),
     },
   };
 
@@ -59,6 +63,5 @@ export async function generate(
       ...value,
     });
   }
-
   return pdfDoc;
 }

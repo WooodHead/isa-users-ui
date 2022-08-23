@@ -7,6 +7,7 @@ import {
   isaRed,
   loadPDFTemplate,
 } from 'app/components/MyCertificates/pdfGenerators/utils';
+import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerators/types';
 
 interface Props {
   name: string;
@@ -28,7 +29,7 @@ export async function generate(
 
   const fullname = `${data.name} ${data.surname}`;
 
-  const modifications = {
+  const modifications: PDFModificationsObject<Props> = {
     fullname: {
       size: 21,
       font: boldFont,
@@ -52,16 +53,10 @@ export async function generate(
     },
   };
 
-  page.drawText(fullname, {
-    ...modifications.fullname,
-  });
-
-  page.drawText(data.startDate, {
-    ...modifications.startDate,
-  });
-  page.drawText(data.endDate, {
-    ...modifications.endDate,
-  });
-
+  for (const [key, value] of Object.entries(modifications)) {
+    page.drawText(data[key], {
+      ...value,
+    });
+  }
   return pdfDoc;
 }

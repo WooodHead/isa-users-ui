@@ -1,4 +1,4 @@
-import PDF_EN from './templates/instructor-b-en.pdf';
+import PDF_EN from './templates/world-record-en.pdf';
 
 import { PDFDocument } from 'pdf-lib';
 import {
@@ -10,11 +10,11 @@ import {
 import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerators/types';
 
 interface Props {
+  recordType: string;
+  specs: string;
   name: string;
-  surname: string;
-  level: string;
-  startDate: string;
-  endDate: string;
+  category: string;
+  date: string;
 }
 
 export const PDFs = { en: PDF_EN };
@@ -28,29 +28,34 @@ export async function generate(
   const { boldFont, page, pageHeight, pageWidth, pdfDoc, semiboldFont } =
     await loadPDFTemplate(blankPDF);
 
-  const fullname = `${data.name} ${data.surname}`;
-
   const modifications: PDFModificationsObject<Props> = {
-    fullname: {
+    recordType: {
+      size: 21,
+      font: boldFont,
+      color: isaBlue,
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.recordType, 21) / 2,
+      y: convertToYCoordinate(213, pageHeight, boldFont, 21),
+    },
+    specs: {
+      size: 16,
+      font: semiboldFont,
+      color: isaBlue,
+      x: 336,
+      y: convertToYCoordinate(259, pageHeight, semiboldFont, 16),
+    },
+    name: {
       size: 21,
       font: boldFont,
       color: isaRed,
-      x: pageWidth / 2 - boldFont.widthOfTextAtSize(fullname, 21) / 2,
-      y: convertToYCoordinate(231, pageHeight, boldFont, 21),
+      x: 336,
+      y: convertToYCoordinate(293, pageHeight, boldFont, 21),
     },
-    startDate: {
+    date: {
       size: 16,
       font: semiboldFont,
       color: isaBlue,
-      x: 391,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
-    },
-    endDate: {
-      size: 16,
-      font: semiboldFont,
-      color: isaBlue,
-      x: 616,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
+      x: 336,
+      y: convertToYCoordinate(332, pageHeight, semiboldFont, 16),
     },
   };
 
@@ -59,6 +64,5 @@ export async function generate(
       ...value,
     });
   }
-
   return pdfDoc;
 }

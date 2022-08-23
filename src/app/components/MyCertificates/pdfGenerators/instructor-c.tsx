@@ -1,4 +1,4 @@
-import PDF_EN from './templates/instructor-b-en.pdf';
+import PDF_EN from './templates/instructor-c-en.pdf';
 
 import { PDFDocument } from 'pdf-lib';
 import {
@@ -36,21 +36,21 @@ export async function generate(
       font: boldFont,
       color: isaRed,
       x: pageWidth / 2 - boldFont.widthOfTextAtSize(fullname, 21) / 2,
-      y: convertToYCoordinate(231, pageHeight, boldFont, 21),
+      y: convertToYCoordinate(218, pageHeight, boldFont, 21),
     },
     startDate: {
       size: 16,
       font: semiboldFont,
       color: isaBlue,
       x: 391,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
+      y: convertToYCoordinate(377, pageHeight, semiboldFont, 16),
     },
     endDate: {
       size: 16,
       font: semiboldFont,
       color: isaBlue,
       x: 616,
-      y: convertToYCoordinate(400, pageHeight, semiboldFont, 16),
+      y: convertToYCoordinate(377, pageHeight, semiboldFont, 16),
     },
   };
 
