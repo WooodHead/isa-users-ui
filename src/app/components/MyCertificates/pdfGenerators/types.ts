@@ -9,13 +9,4 @@ export type PDFModificationsObject<T> =
         x: number;
         y: number;
       };
-    }
-  | {
-      [key: string]: {
-        size: number;
-        font: PDFFont;
-        color: RGB;
-        x: number;
-        y: number;
-      };
     };

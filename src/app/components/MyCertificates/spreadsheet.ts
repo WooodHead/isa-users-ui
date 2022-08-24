@@ -22,7 +22,7 @@ const parse = (range: string, values: string[][]) => {
   for (const row of values) {
     for (const [key, value] of Object.entries(parsers)) {
       if (range.includes(value.range)) {
-        items.push(value.parse(row));
+        items.push(value.parse(parseRowData(row)));
       }
     }
   }
@@ -32,21 +32,20 @@ const parse = (range: string, values: string[][]) => {
 const parsers: {
   [P in CertificateType]: {
     range: string;
-    parse: (row: string[]) => CertificateItem;
+    parse: (row: ReturnType<typeof parseRowData>) => CertificateItem;
   };
 } = {
   instructor: {
     range: 'Instructors',
     parse: row => ({
       certificateType: 'instructor',
-      name: `Instructor Level ${row[4].trim()}`,
+      name: `Instructor Level ${row(4)}`,
       languages: ['en'],
       data: {
-        name: row[2].trim().toUpperCase(),
-        surname: row[3].trim().toUpperCase(),
-        level: row[4].trim().toUpperCase(),
-        startDate: row[5].trim().toUpperCase(),
-        endDate: row[6].trim().toUpperCase(),
+        fullname: `${row(2)} ${row(3)}`,
+        level: row(4),
+        startDate: row(5),
+        endDate: row(6),
       },
     }),
   },
@@ -54,14 +53,13 @@ const parsers: {
     range: 'Riggers',
     parse: row => ({
       certificateType: 'rigger',
-      name: `Rigger Level ${row[4].trim()}`,
+      name: `Rigger Level ${row(4)}`,
       languages: ['en'],
       data: {
-        name: row[2].trim().toUpperCase(),
-        surname: row[3].trim().toUpperCase(),
-        level: row[4].trim().toUpperCase(),
-        startDate: row[5].trim().toUpperCase(),
-        endDate: row[6].trim().toUpperCase(),
+        fullname: `${row(2)} ${row(3)}`,
+        level: row(4),
+        startDate: row(5),
+        endDate: row(6),
       },
     }),
   },
@@ -72,33 +70,31 @@ const parsers: {
       name: `Athletic Award`,
       languages: ['en'],
       data: {
-        name: row[2].trim().toUpperCase(),
-        surname: row[3].trim().toUpperCase(),
-        representing: row[4].trim().toUpperCase(),
-        rank: row[5].trim().toUpperCase(),
-        competitionName: row[6].trim().toUpperCase(),
-        location: row[7].trim().toUpperCase(),
-        dateOfFinals: row[8].trim().toUpperCase(),
-        contestSize: row[9].trim().toUpperCase(),
-        category: row[10].trim().toUpperCase(),
-        discipline: row[11].trim().toUpperCase(),
+        fullname: `${row(2)} ${row(3)}`,
+        representing: row(4),
+        rank: row(5),
+        competitionName: row(6),
+        location: row(7),
+        dateOfFinals: row(8),
+        contestSize: row(9),
+        category: row(10),
+        discipline: row(11),
       },
     }),
   },
   'athlete-certificate-of-exellence': {
-    range: 'Athlete Certificate of Exellence(Year)',
+    range: 'Athlete Certificate Of Exellence',
     parse: row => ({
       certificateType: 'athlete-certificate-of-exellence',
       name: `Athlete Certificate of Exellence`,
       languages: ['en'],
       data: {
-        name: row[2].trim().toUpperCase(),
-        surname: row[3].trim().toUpperCase(),
-        representing: row[4].trim().toUpperCase(),
-        year: row[5].trim().toUpperCase(),
-        rank: row[6].trim().toUpperCase(),
-        category: row[7].trim().toUpperCase(),
-        discipline: row[8].trim().toUpperCase(),
+        fullname: `${row(2)} ${row(3)}`,
+        representing: row(4),
+        year: row(5),
+        rank: row(6),
+        category: row(7),
+        discipline: row(8),
       },
     }),
   },
@@ -106,16 +102,15 @@ const parsers: {
     range: 'Contest Organizer',
     parse: row => ({
       certificateType: 'contest-organizer',
-      name: `Contest Organizer`,
+      name: `Contest Organizer: ${row(4)}`,
       languages: ['en'],
       data: {
-        name: row[2].trim().toUpperCase(),
-        surname: row[3].trim().toUpperCase(),
-        contestName: row[4].trim().toUpperCase(),
-        country: row[5].trim().toUpperCase(),
-        date: row[6].trim().toUpperCase(),
-        discipline: row[7].trim().toUpperCase(),
-        contestSize: row[8].trim().toUpperCase(),
+        fullname: `${row(2)} ${row(3)}`,
+        contestName: row(4),
+        country: row(5),
+        date: row(6),
+        discipline: row(7),
+        contestSize: row(8),
       },
     }),
   },
@@ -126,10 +121,10 @@ const parsers: {
       name: `ISA Membership`,
       languages: ['en'],
       data: {
-        membership: row[2].trim().toUpperCase(),
-        name: row[3].trim().toUpperCase(),
-        date: row[4].trim().toUpperCase(),
-        location: row[5].trim().toUpperCase(),
+        membership: row(2),
+        name: row(3),
+        date: row(4),
+        location: row(5),
       },
     }),
   },
@@ -137,14 +132,14 @@ const parsers: {
     range: 'World Records',
     parse: row => ({
       certificateType: 'world-record',
-      name: `World Record`,
+      name: `World Record: ${row(3)}`,
       languages: ['en'],
       data: {
-        recordType: row[2].trim().toUpperCase(),
-        specs: row[3].trim().toUpperCase(),
-        name: row[4].trim().toUpperCase(),
-        category: row[5].trim().toUpperCase(),
-        date: row[6].trim().toUpperCase(),
+        recordType: row(2),
+        specs: row(3),
+        name: row(4),
+        category: row(5),
+        date: row(6),
       },
     }),
   },
@@ -155,8 +150,8 @@ const parsers: {
       name: `Honorary Member`,
       languages: ['en'],
       data: {
-        fullname: row[2].trim().toUpperCase(),
-        date: row[3].trim().toUpperCase(),
+        fullname: row(2),
+        date: row(3),
       },
     }),
   },
@@ -164,21 +159,34 @@ const parsers: {
     range: 'Approved Gear',
     parse: row => ({
       certificateType: 'approved-gear',
-      name: `Approved Gear: ${row[3].trim()}`,
+      name: `Approved Gear: ${row(3)}`,
       languages: ['en'],
       data: {
-        brand: row[2].trim().toUpperCase(),
-        modelName: row[3].trim().toUpperCase(),
-        modelVersion: row[4].trim().toUpperCase(),
-        releaseYear: row[5].trim().toUpperCase(),
-        productLink: row[6].trim().toUpperCase(),
-        manualLink: row[7].trim().toUpperCase(),
-        testingLab: row[8].trim().toUpperCase(),
-        testDate: row[9].trim().toUpperCase(),
-        productType: row[10].trim().toUpperCase(),
-        standard: row[11].trim().toUpperCase(),
-        standardVersion: row[12].trim().toUpperCase(),
+        brand: row(2),
+        modelName: row(3),
+        modelVersion: row(4),
+        releaseYear: row(5),
+        productLink: row(6),
+        manualLink: row(7),
+        testingLab: row(8),
+        testDate: row(9),
+        productType: row(10),
+        standard: row(11),
+        standardVersion: row(12),
       },
     }),
   },
+};
+
+const parseRowData = (row: string[]) => {
+  return (
+    index: number,
+    opts: { toUpperCase: boolean } = { toUpperCase: true },
+  ) => {
+    let value = row[index]?.trim();
+    if (opts.toUpperCase) {
+      value = value?.toUpperCase();
+    }
+    return value;
+  };
 };

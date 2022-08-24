@@ -8,6 +8,9 @@ import * as rigger from './pdfGenerators/rigger';
 import * as isaMember from './pdfGenerators/isa-membership';
 import * as approvedGear from './pdfGenerators/approved-gear';
 import * as worldRecord from './pdfGenerators/world-record';
+import * as athleticAward from './pdfGenerators/athletic-award';
+import * as athleteExellence from './pdfGenerators/athletic-exellence';
+import * as contestOrganizer from './pdfGenerators/contest-organizer';
 
 export const generateCertificate = async (
   item: CertificateItem,
@@ -37,6 +40,15 @@ export const generateCertificate = async (
       break;
     case 'world-record':
       pdf = await worldRecord.generate(language, item.data);
+      break;
+    case 'athletic-award':
+      pdf = await athleticAward.generate(language, item.data);
+      break;
+    case 'athlete-certificate-of-exellence':
+      pdf = await athleteExellence.generate(language, item.data);
+      break;
+    case 'contest-organizer':
+      pdf = await contestOrganizer.generate(language, item.data);
       break;
     default:
       break;

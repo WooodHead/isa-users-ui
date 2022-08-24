@@ -1,6 +1,6 @@
-import PDF_EN from './templates/instructor-c-en.pdf';
+import PDF_EN from './templates/contest-organizer-en.pdf';
 
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, PDFFont, RGB } from 'pdf-lib';
 import {
   convertToYCoordinate,
   isaBlue,
@@ -11,9 +11,11 @@ import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerat
 
 interface Props {
   fullname: string;
-  level: string;
-  startDate: string;
-  endDate: string;
+  contestName: string;
+  country: string;
+  date: string;
+  discipline: string;
+  contestSize: string;
 }
 
 export const PDFs = { en: PDF_EN };
@@ -33,21 +35,42 @@ export async function generate(
       font: boldFont,
       color: isaRed,
       x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.fullname, 21) / 2,
-      y: convertToYCoordinate(218, pageHeight, boldFont, 21),
+      y: convertToYCoordinate(197, pageHeight, boldFont, 21),
     },
-    startDate: {
-      size: 16,
+    contestName: {
+      size: 12,
       font: semiboldFont,
       color: isaBlue,
-      x: 391,
-      y: convertToYCoordinate(377, pageHeight, semiboldFont, 16),
+      x: 430,
+      y: convertToYCoordinate(294, pageHeight, semiboldFont, 12),
     },
-    endDate: {
-      size: 16,
+    country: {
+      size: 12,
       font: semiboldFont,
       color: isaBlue,
-      x: 616,
-      y: convertToYCoordinate(377, pageHeight, semiboldFont, 16),
+      x: 430,
+      y: convertToYCoordinate(312, pageHeight, semiboldFont, 12),
+    },
+    date: {
+      size: 12,
+      font: semiboldFont,
+      color: isaBlue,
+      x: 430,
+      y: convertToYCoordinate(331, pageHeight, semiboldFont, 12),
+    },
+    discipline: {
+      size: 12,
+      font: semiboldFont,
+      color: isaBlue,
+      x: 430,
+      y: convertToYCoordinate(349, pageHeight, semiboldFont, 12),
+    },
+    contestSize: {
+      size: 12,
+      font: semiboldFont,
+      color: isaBlue,
+      x: 430,
+      y: convertToYCoordinate(367, pageHeight, semiboldFont, 12),
     },
   };
 

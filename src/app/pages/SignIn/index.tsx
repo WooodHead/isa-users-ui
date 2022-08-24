@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import Lock from '@mui/icons-material/Lock';
 import LockOpen from '@mui/icons-material/LockOpen';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Modal,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { useMediaQuery } from 'utils/hooks/useMediaQuery';
 import CheckIcon from '@mui/icons-material/Check';
+import { PrivacyPolicy } from 'app/pages/SignIn/PrivacyPolicy';
+import { PolicyDialog } from 'app/pages/SignIn/PolicyDialog';
+import { TermsAndConditions } from 'app/pages/SignIn/TermsAndConditions';
 
 interface Props {
   signInClicked: () => void;
@@ -76,6 +90,19 @@ export const SignIn = (props: Props) => {
               Keep your information <b>private</b> without sharing with any
               third-parties.
             </Typography>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent={'space-between'}
+            sx={{ pl: 8, pr: 8 }}
+          >
+            <PolicyDialog title="Privacy Policy">
+              <PrivacyPolicy />
+            </PolicyDialog>
+            <PolicyDialog title="Terms and Conditions">
+              <TermsAndConditions />
+            </PolicyDialog>
           </Box>
         </Stack>
         <Button

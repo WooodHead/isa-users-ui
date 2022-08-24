@@ -29,7 +29,7 @@ export async function generate(
       font: boldFont,
       color: isaRed,
       x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.fullname, 21) / 2,
-      y: convertToYCoordinate(259, pageHeight, boldFont, 21),
+      y: convertToYCoordinate(260, pageHeight, boldFont, 21),
     },
     date: {
       size: 16,

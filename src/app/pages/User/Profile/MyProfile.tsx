@@ -117,10 +117,11 @@ export function MyProfile() {
           </Grid>
           <Grid item xs={6} lg={6}>
             <InputText
-              label="Phone Number"
+              label="Phone Number(with country code)"
               error={errorMarkedField?.field === 'phoneNumber'}
               helperText={errorMarkedField?.message}
               defaultValue={userInfo!.phoneNumber}
+              placeholderText="+1 (555) 555-5555"
               onChange={v => {
                 form.setPhoneNumber(v);
               }}

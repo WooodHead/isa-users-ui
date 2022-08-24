@@ -35,6 +35,10 @@ export function MyCertificates() {
   return (
     <Card>
       <CardHeader title="My Certificates" />
+      <Typography variant="caption" color="textSecondary" sx={{ ml: 2 }}>
+        Tip: If the certificate is not showing up, you may need to disable the
+        'Pop-up blocker' in your browser.
+      </Typography>
       <CardContent>
         {isCertificatesLoading ? (
           <CircularProgress />

@@ -10,8 +10,7 @@ import {
 import { PDFModificationsObject } from 'app/components/MyCertificates/pdfGenerators/types';
 
 interface Props {
-  name: string;
-  surname: string;
+  fullname: string;
   level: string;
   startDate: string;
   endDate: string;
@@ -28,14 +27,12 @@ export async function generate(
   const { boldFont, page, pageHeight, pageWidth, pdfDoc, semiboldFont } =
     await loadPDFTemplate(blankPDF);
 
-  const fullname = `${data.name} ${data.surname}`;
-
   const modifications: PDFModificationsObject<Props> = {
     fullname: {
       size: 21,
       font: boldFont,
       color: isaRed,
-      x: pageWidth / 2 - boldFont.widthOfTextAtSize(fullname, 21) / 2,
+      x: pageWidth / 2 - boldFont.widthOfTextAtSize(data.fullname, 21) / 2,
       y: convertToYCoordinate(231, pageHeight, boldFont, 21),
     },
     startDate: {
