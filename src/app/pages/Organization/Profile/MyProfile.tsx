@@ -43,7 +43,7 @@ export function MyProfile() {
       const error = result.errors![0];
       setErrorMarkedField({ field: error.field, message: error.message });
       const message = `Invalid Field: "${error.field}". Reason: ${error.message}`;
-      dispatch(showErrorNotification(message));
+      // dispatch(showErrorNotification(message));
     } else {
       setErrorMarkedField(undefined);
       updateOrganization(result.data!);

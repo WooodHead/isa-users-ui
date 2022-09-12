@@ -48,7 +48,6 @@ export const useProfileForm = () => {
       emergencyContact: z.string().trim().regex(phoneRegExp).optional(),
     });
     const user = values();
-    console.log(user);
     const birthDate = user.birthDate && new Date(user.birthDate);
 
     const data = profileSchema.safeParse({ ...user, birthDate });
