@@ -19,7 +19,10 @@ export const selectSnackbarNotification = createSelector(
 export const selectCurrentUserInfo = createSelector(
   [selectSlice, selectUserSlice, selectOrganizationSlice],
   (appState, userState, organizationState) => {
-    const info = { identityType: appState.userIdentityType };
+    const info = {
+      identityType: appState.userIdentityType,
+      cognitoAttributes: appState.cognitoAttributes,
+    };
     if (appState.userIdentityType === 'individual') {
       return {
         ...info,
@@ -34,5 +37,6 @@ export const selectCurrentUserInfo = createSelector(
         isaId: organizationState?.organizationInfo?.organizationId,
       };
     }
+    return undefined;
   },
 );

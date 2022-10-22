@@ -86,12 +86,10 @@ export function App() {
     if (authState === AuthState.SignedIn) {
       Auth.currentUserInfo()
         .then(data => {
-          const identityType = data.attributes['custom:identityType'];
-          if (!identityType) {
-            dispatch(appActions.updateAuthState(AuthState.SigningOut));
-          } else {
-            dispatch(appActions.updateIdentityType(identityType));
-          }
+          const identityType: IdentityType =
+            data.attributes['custom:identityType'] || 'individual';
+          dispatch(appActions.updateIdentityType(identityType));
+          dispatch(appActions.updateCognitoAttributes(data.attributes));
         })
         .catch(err => {
           dispatch(appActions.updateAuthState(AuthState.SigningOut));

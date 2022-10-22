@@ -18,6 +18,12 @@ const appSlice = createSlice({
     updateIdentityType(state, action: PayloadAction<IdentityType>) {
       state.userIdentityType = action.payload;
     },
+    updateCognitoAttributes(
+      state,
+      action: PayloadAction<{ sub: string; email_verified: boolean }>,
+    ) {
+      state.cognitoAttributes = action.payload;
+    },
     updateSnackbarNotification(
       state,
       action: PayloadAction<SnackbarNotification | 'error'>,

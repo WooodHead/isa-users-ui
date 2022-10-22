@@ -9,6 +9,8 @@ interface Props {
   placeholderText?: string;
   error?: boolean;
   helperText?: string;
+  fullWidth?: boolean;
+  size?: 'small' | 'medium';
 }
 
 export const InputText = (props: Props) => {
